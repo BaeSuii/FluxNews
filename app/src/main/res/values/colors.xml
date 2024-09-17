@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="display_small">#000000</color>
+    <color name="text_medium">#FF4E4B66</color>
+    <color name="text_title">#000000</color>
+    <color name="body">#4E4B66</color>
+    <color name="input_background">#fff</color>
+    <color name="placeholder">#8A8184</color>
+    <color name="shimmer">#C3C3C3</color>
+
+    <!-- Other -->
+    <color name="textPrimaryLight">#231F20</color>
+    <color name="textSecondaryLight">#6D6265</color>
+    <color name="systemSuccessLight">#0D942B</color>
+    <color name="systemWarningLight">#FE4F32</color>
+    <color name="systemInfoLight">#2D5BD0</color>
+</resources>
