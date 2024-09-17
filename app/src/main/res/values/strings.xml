@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">FluxNews</string>
+
+    <!-- Onboarding Screen -->
+    <string name="onboarding_title_1">Your Daily Dose of Top Stories</string>
+    <string name="onboarding_description_1">Never miss out on important news! Get personalized updates from around the globe, covering everything from trending topics to essential insights, directly in your hand.</string>
+    <string name="onboarding_title_2">Stay Informed with Real-Time Updates</string>
+    <string name="onboarding_description_2">Dive into a world of news at your fingertips—from breaking headlines to in-depth stories, stay updated on the latest in politics, entertainment, sports, and more, all in one app.</string>
+    <string name="onboarding_title_3">All the News You Need, In One Place</string>
+    <string name="onboarding_description_3">From world events to entertainment buzz, get comprehensive coverage of the latest developments. Your go-to source for all things news is just a tap away.</string>
+
+    <!-- Home Screen -->
+    <string name="breaking_news">Breaking News</string>
+    <string name="trends">Trends</string>
+
+    <!-- Menu Navigation -->
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="settings">Settings</string>
+
+    <!-- Weather -->
+    <string name="weather_greeting_day">Good morning!</string>
+    <string name="weather_greeting_afternoon">Good afternoon!</string>
+    <string name="weather_greeting_evening">Good evening!</string>
+    <string name="weather_clear_sky">Clear sky</string>
+    <string name="weather_few_clouds">Few clouds</string>
+    <string name="weather_scattered_clouds">Scattered clouds</string>
+    <string name="weather_broken_clouds">Broken Clouds</string>
+    <string name="weather_shower_rain">Shower rain</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_mist">Mist</string>
+
+    <!-- Settings Screen -->
+    <string name="theme">Theme</string>">
+    <string name="select_theme">Select Theme</string>
+    <string name="use_system_settings">Use System Settings</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="app_version">App Version</string>
+
+    <!-- Log Prompts -->
+    <string name="io_exception_error">IO Exception Error</string>
+    <string name="http_exception_error">HTTP Exception Error</string>
+    <string name="no_saved_news">You have not saved news so far !</string>
+</resources>
