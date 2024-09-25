@@ -38,7 +38,7 @@ fun BottomNavigation(
             .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
         containerColor = MaterialTheme.colorScheme.surface,
-        tonalElevation = 10.dp
+        tonalElevation = 5.dp
     ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
@@ -82,7 +82,9 @@ data class BottomNavigationItem(
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun NewsBottomNavigationPreview() {
-    FluxNewsTheme (dynamicColor = false) {
+    FluxNewsTheme (
+        dynamicColor = false
+    ) {
 
         BottomNavigation(items = listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = stringResource(R.string.home)),

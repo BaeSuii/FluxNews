@@ -1,5 +1,6 @@
 package com.baesuii.fluxnews.presentation.article
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,16 +23,17 @@ fun BreakingNewsList (
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClick: (Article) -> Unit
-){
+) {
     // Displays list of articles if data is loaded.
     val breakingNewsHandlePagingResult = breakingNewsHandlePagingResult(articles = articles)
+
     if (breakingNewsHandlePagingResult) {
 
-        LazyRow (
+        LazyRow(
             modifier = modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.spacedBy(paddingMedium)
-        ){
-            items(count = minOf(articles.itemCount, 5)){ index ->
+        ) {
+            items(count = minOf(articles.itemCount, 5)) { index ->
 
                 articles[index]?.let { article ->
                     HomeBreakingNews(

@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -29,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.presentation.theme.Dimensions.articleCardSizeHeight
 import com.baesuii.fluxnews.presentation.theme.Dimensions.articleCardSizeWidth
-import com.baesuii.fluxnews.presentation.theme.Dimensions.homeBreakingNewsHeight
-import com.baesuii.fluxnews.presentation.theme.Dimensions.homeBreakingNewsWidth
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraSmall
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall
@@ -52,9 +48,9 @@ fun Modifier.articleEffect() = composed {
 fun ArticleCardEffect(
     modifier: Modifier
 ){
+    //TODO match size with Article Card
     Row(
-        modifier = modifier
-            .padding(paddingSmall),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

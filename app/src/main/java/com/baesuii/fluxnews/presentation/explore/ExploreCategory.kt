@@ -1,4 +1,4 @@
-package com.baesuii.fluxnews.presentation.search
+package com.baesuii.fluxnews.presentation.explore
 
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
@@ -78,7 +78,9 @@ fun ExploreCategoryPreview(
     categories: List<String> = listOf("Category", "Science", "Technology"),
     selectedCategory: String = "Category"
 ) {
-    FluxNewsTheme {
+    FluxNewsTheme(
+        dynamicColor = false
+    ) {
         ExploreCategory(categories = categories, selectedCategory = selectedCategory, onCategorySelected = {})
     }
 

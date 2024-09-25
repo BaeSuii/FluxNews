@@ -162,7 +162,9 @@ fun OnboardingScreen(
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun OnboardingScreenPreview(){
-    FluxNewsTheme {
+    FluxNewsTheme (
+        dynamicColor = false
+    ) {
         OnboardingScreen()
     }
 }

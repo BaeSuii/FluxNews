@@ -1,7 +1,6 @@
 package com.baesuii.fluxnews.presentation.bookmark
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,15 +9,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.presentation.article.ArticleList
-import com.baesuii.fluxnews.presentation.common.StatusBar
 import com.baesuii.fluxnews.presentation.common.TextH3
-import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
+import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,13 +24,6 @@ fun BookmarkScreen(
     state: BookmarkState,
     navigateToDetails: (Article) -> Unit,
 ) {
-    val isDarkTheme = isSystemInDarkTheme()
-    StatusBar(
-        darkTheme = isDarkTheme,
-        darkThemeColor = Color.Transparent,
-        lightThemeColor = Color.Transparent
-    )
-
     Column {
         TopAppBar(
             modifier = Modifier.padding(paddingSemiMedium),
@@ -45,7 +35,7 @@ fun BookmarkScreen(
             )
         )
         ArticleList(
-            modifier = Modifier.padding(horizontal = paddingLarge),
+            modifier = Modifier.padding(horizontal = paddingSmall),
             articles = state.articles,
             onClick = { navigateToDetails(it)}
         )
@@ -58,7 +48,9 @@ fun BookmarkScreen(
 fun PreviewSearchScreen() {
     val dummyState = BookmarkState()
 
-    FluxNewsTheme {
+    FluxNewsTheme (
+        dynamicColor = false
+    ){
         BookmarkScreen(
             state = dummyState,
             navigateToDetails = { /* Handle navigation */ }

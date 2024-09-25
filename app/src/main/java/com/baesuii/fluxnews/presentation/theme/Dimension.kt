@@ -35,14 +35,15 @@ object Dimensions {
     val homeBreakingNewsWidth = 260.dp
     val homeBreakingNewsHeight = 350.dp
 
-    val bottomNavigationHeight = 80.dp
+    val topBarHeight = 140.dp
     val bottomNavigationItemHeight = 40.dp
     val articleNavigationHeight = 70.dp
-    val bottomNavigationItemWidth = 98.dp
 
     val lazyRowArticleWidth = 1330.dp
 
-    val bottomNavigationItemShape = 24.dp
+    val toggleButtonHeight = 35.dp
+    val toggleButtonWidth = 70.dp
+    val nicknameInputHeight = 100.dp
 
 
 

@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.presentation.common.EmptyScreen
-import com.baesuii.fluxnews.presentation.home.HomeBreakingNews
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraSmall
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 
@@ -42,7 +40,7 @@ fun ArticleList (
 }
 
 @Composable
-fun ArticleList (
+fun ArticleListPaging (
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClick: (Article) -> Unit

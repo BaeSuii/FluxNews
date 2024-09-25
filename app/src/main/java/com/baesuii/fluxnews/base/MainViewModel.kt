@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val appEntryUseCases: AppEntryUseCases
+    appEntryUseCases: AppEntryUseCases
 ): ViewModel() {
 
     var splashCondition by mutableStateOf(true)

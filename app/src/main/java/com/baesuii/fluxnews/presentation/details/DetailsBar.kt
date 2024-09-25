@@ -4,7 +4,6 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -107,10 +106,12 @@ fun DetailsBar(
 
 
 @Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun DetailsTopBarPreview(){
-    FluxNewsTheme {
+    FluxNewsTheme(
+        dynamicColor = false
+    ) {
         Box(modifier = Modifier.background(Color.Transparent)) {
             DetailsBar(
                 onBrowsingClick = { /*TODO*/ },

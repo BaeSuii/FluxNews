@@ -7,37 +7,40 @@ import retrofit2.http.Query
 
 interface NewsApi {
 
-    // Everything
+    // Home Screen
     @GET("everything")
     suspend fun getNewsEverything(
         @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
         @Query("sources") sources: String,
+        @Query("apiKey") apiKey: String = API_KEY
+    ): NewsResponse
+
+    @GET("top-headlines")
+    suspend fun getBreakingNews(
+        @Query("country") country: String,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("apiKey") apiKey: String = API_KEY
+    ): NewsResponse
+
+    // Explore Screen
+    @GET("top-headlines")
+    suspend fun getCategorizedNews(
+        @Query("category") category: String,
+        @Query("country") country: String = "us",
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
         @Query("apiKey") apiKey: String = API_KEY
     ): NewsResponse
 
     @GET("everything")
     suspend fun searchNews(
         @Query("q") searchQuery: String,
-        @Query("page") page: Int,
-        @Query("sources") sources: String,
-        @Query("apiKey") apiKey: String = API_KEY
-    ): NewsResponse
-
-    // Top Headlines
-    @GET("top-headlines")
-    suspend fun getBreakingNews(
         @Query("country") country: String = "us",
-        @Query("sources") sources: String,
-        @Query("apiKey") apiKey: String = API_KEY
-    ): NewsResponse
-
-    @GET("top-headlines")
-    suspend fun getCategorizedNews(
-        @Query("category") category: String,
-        @Query("country") country: String = "us",
-        @Query("sources") sources: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("apiKey") apiKey: String = API_KEY,
+        @Query("sources") sources: String,
+        @Query("apiKey") apiKey: String = API_KEY
     ): NewsResponse
 }

@@ -2,14 +2,15 @@ package com.baesuii.fluxnews.domain.model
 
 import androidx.annotation.DrawableRes
 
-data class Settings(
+data class DarkMode(
     val title: String,
     val description: String,
-    @DrawableRes val icon: Int
+    @DrawableRes val icon: Int,
+    val isDarkModeEnabled: Boolean
 )
 
-data class AppTheme(
-    val name: String,
-    val value: Int,
+data class AppVersion(
+    val title: String,
+    val description: String,
     @DrawableRes val icon: Int
 )

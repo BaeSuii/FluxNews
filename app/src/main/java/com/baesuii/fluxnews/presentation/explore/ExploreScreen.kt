@@ -1,15 +1,14 @@
-package com.baesuii.fluxnews.presentation.search
+package com.baesuii.fluxnews.presentation.explore
 
 import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,44 +21,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.presentation.article.ArticleList
+import com.baesuii.fluxnews.presentation.article.ArticleListPaging
 import com.baesuii.fluxnews.presentation.common.SearchBar
-import com.baesuii.fluxnews.presentation.common.StatusBar
-import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
+import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall
+import com.baesuii.fluxnews.util.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(
-    searchState: SearchState,
+fun ExploreScreen(
+    exploreState: ExploreState,
     articles: LazyPagingItems<Article>,
-    event: (SearchEvent) -> Unit,
+    event: (ExploreEvent) -> Unit,
     navigateToDetails: (Article) -> Unit,
 ) {
-    val isDarkTheme = isSystemInDarkTheme()
-    StatusBar(
-        darkTheme = isDarkTheme,
-        darkThemeColor = Color.Transparent,
-        lightThemeColor = Color.Transparent
-    )
-
     var isSearchActive by remember { mutableStateOf(false) }
-
-    val pagerState = rememberPagerState(pageCount = { 10 })
-    val categories: List<String> = listOf(
-        "Health", "Business", "Technology", "Entertainment", "Science", "Sports"
-    )
-    var selectedCategory by remember { mutableStateOf(categories.first()) }
 
     Column (
         modifier = Modifier.fillMaxWidth()
@@ -99,10 +83,10 @@ fun SearchScreen(
                 SearchBar(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = searchState.searchQuery,
+                    text = exploreState.searchQuery,
                     readOnly = false,
-                    onValueChange = { event(SearchEvent.OnSearchQueryChanged(it)) },
-                    onSearch = { event(SearchEvent.OnSearch) },
+                    onValueChange = { event(ExploreEvent.OnSearchQueryChanged(it)) },
+                    onSearch = { event(ExploreEvent.OnSearch) },
                     onSearchClosed = {
                         isSearchActive = false // Close search
                     }
@@ -117,31 +101,27 @@ fun SearchScreen(
                 if (!isSearchActive) {
 
                     ExploreCategory(
-                        categories = categories,
-                        selectedCategory = selectedCategory,
+                        categories = Constants.CATEGORY_LIST,
+                        selectedCategory = exploreState.selectedCategory,
                         onCategorySelected = { category ->
-                            selectedCategory = category
+                            event(ExploreEvent.OnCategorySelected(category))
                             Log.d("onCategorySelected", "Selected Category: $category")
                         }
                     )
 
-                    HorizontalPager(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        state = pagerState,
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        ArticleList(
-                            modifier = Modifier.padding(horizontal = paddingLarge),
-                            articles = articles,
-                            onClick = { article -> navigateToDetails(article) }
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(paddingMedium))
+
+                    ArticleListPaging(
+                        modifier = Modifier.padding(horizontal = paddingSmall),
+                        articles = articles,
+                        onClick = { article -> navigateToDetails(article) }
+                    )
 
                 } else {
-                    searchState.articles?.let {
+                    exploreState.articles?.let {
                         val searchArticles = it.collectAsLazyPagingItems()
-                        ArticleList(
+                        ArticleListPaging(
+                            modifier = Modifier.padding(horizontal = paddingSmall),
                             articles = searchArticles,
                             onClick = { article -> navigateToDetails(article)
                             }
@@ -157,12 +137,12 @@ fun SearchScreen(
 //@Preview(uiMode = UI_MODE_NIGHT_YES)
 //@Composable
 //fun PreviewSearchScreen() {
-//    val dummyState = SearchState(
+//    val dummyState = ExploreState(
 //        searchQuery = "Test Search",
 //        articles = null // or pass some mock data for testing
 //    )
 //    FluxNewsTheme {
-//        SearchScreen(
+//        ExploreScreen(
 //            state = dummyState,
 //            event = { /* Handle search event */ },
 //            navigateToDetails = { /* Handle navigation */ }

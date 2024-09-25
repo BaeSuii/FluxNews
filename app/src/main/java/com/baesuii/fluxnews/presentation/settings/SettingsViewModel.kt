@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.baesuii.fluxnews.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,16 +16,45 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    val theme = settingsRepository.getTheme()
+    // Dark Mode
+    val theme: StateFlow<Boolean> = settingsRepository.getMode()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = 0,
+            initialValue = false
         )
 
-    fun updateTheme(themeValue: Int) {
+    fun updateDarkMode(isDarkModeEnabled: Boolean) {
         viewModelScope.launch {
-            settingsRepository.saveTheme(themeValue)
+            settingsRepository.updateDarkMode(isDarkModeEnabled)
+        }
+    }
+
+    // Nickname
+    val nickname: StateFlow<String> = settingsRepository.getNickname()  // Get the nickname state
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ""
+        )
+
+    fun updateNickname(newNickname: String) {
+        viewModelScope.launch {
+            settingsRepository.updateNickname(newNickname)  // Save the nickname to DataStore
+        }
+    }
+
+    //Emoji
+    val selectedEmoji: StateFlow<String> = settingsRepository.getSelectedEmoji()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = "\uD83D\uDE36"
+        )
+
+    fun updateSelectedEmoji(emoji: String) {
+        viewModelScope.launch {
+            settingsRepository.updateSelectedEmoji(emoji)
         }
     }
 }

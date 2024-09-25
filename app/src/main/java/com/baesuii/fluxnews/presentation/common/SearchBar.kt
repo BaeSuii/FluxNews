@@ -129,7 +129,9 @@ fun Modifier.searchBarBorder() = composed {
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun SearchBarPreview(){
-    FluxNewsTheme {
+    FluxNewsTheme (
+        dynamicColor = false
+    ){
         SearchBar(text = "", readOnly = false, onValueChange = {}, onSearch = {}) {
         }
     }

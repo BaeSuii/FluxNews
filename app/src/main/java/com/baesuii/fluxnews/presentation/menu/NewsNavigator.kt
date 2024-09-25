@@ -1,6 +1,9 @@
 package com.baesuii.fluxnews.presentation.menu
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,10 +34,9 @@ import com.baesuii.fluxnews.presentation.details.DetailsViewModel
 import com.baesuii.fluxnews.presentation.home.HomeScreen
 import com.baesuii.fluxnews.presentation.home.HomeViewModel
 import com.baesuii.fluxnews.presentation.navgraph.NewsRouter
-import com.baesuii.fluxnews.presentation.search.SearchScreen
-import com.baesuii.fluxnews.presentation.search.SearchViewModel
+import com.baesuii.fluxnews.presentation.explore.ExploreScreen
+import com.baesuii.fluxnews.presentation.explore.ExploreViewModel
 import com.baesuii.fluxnews.presentation.settings.SettingsScreen
-import com.baesuii.fluxnews.presentation.settings.SettingsViewModel
 
 @Composable
 fun NewsNavigator(){
@@ -62,7 +65,7 @@ fun NewsNavigator(){
     selectedItem = remember(key1 = backStackState.value) {
         when(backStackState.value?.destination?.route){
             NewsRouter.HomeScreen.route -> 0
-            NewsRouter.SearchScreen.route -> 1
+            NewsRouter.ExploreScreen.route -> 1
             NewsRouter.BookmarkScreen.route -> 2
             NewsRouter.SettingsScreen.route -> 3
             else -> 0
@@ -71,7 +74,7 @@ fun NewsNavigator(){
 
     val isBottomBarVisible = remember (key1 = backStackState.value){
         backStackState.value?.destination?.route == NewsRouter.HomeScreen.route ||
-                backStackState.value?.destination?.route == NewsRouter.SearchScreen.route ||
+                backStackState.value?.destination?.route == NewsRouter.ExploreScreen.route ||
                 backStackState.value?.destination?.route == NewsRouter.BookmarkScreen.route ||
                 backStackState.value?.destination?.route == NewsRouter.SettingsScreen.route
     }
@@ -79,8 +82,13 @@ fun NewsNavigator(){
 
     Scaffold (
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
         bottomBar = {
-            if (isBottomBarVisible) {
+            AnimatedVisibility(
+                visible = isBottomBarVisible,
+                enter = slideInVertically(initialOffsetY = { it }),
+                exit = slideOutVertically(targetOffsetY = { it }),
+            ) {
                 BottomNavigation(
                     items = bottomNavigationItem,
                     selected = selectedItem,
@@ -93,7 +101,7 @@ fun NewsNavigator(){
 
                             1 -> navigationToTop(
                                 navController = navController,
-                                route = NewsRouter.SearchScreen.route
+                                route = NewsRouter.ExploreScreen.route
                             )
 
                             2 -> navigationToTop(
@@ -119,25 +127,34 @@ fun NewsNavigator(){
         ){
             composable(route = NewsRouter.HomeScreen.route){
                 val viewModel: HomeViewModel = hiltViewModel()
-                val articles = viewModel.news.collectAsLazyPagingItems()
+                val everythingNews = viewModel.everythingNews.collectAsLazyPagingItems()
+                val breakingNews = viewModel.breakingNews.collectAsLazyPagingItems()
+
                 HomeScreen(
-                    articles = articles,
+                    everythingNews = everythingNews,
+                    breakingNews = breakingNews,
                     navigateToDetails = { article ->
                         navigateToDetails(navController = navController, article = article)
                     }
                 )
             }
 
-            composable(route = NewsRouter.SearchScreen.route){
-                val viewModel: SearchViewModel = hiltViewModel()
+            composable(route = NewsRouter.ExploreScreen.route){
+                val viewModel: ExploreViewModel = hiltViewModel()
                 val state = viewModel.state.value
-                val articles = viewModel.news.collectAsLazyPagingItems()
-                SearchScreen(
-                    searchState = state,
+                val articles = if (state.searchQuery.isEmpty()) {
+                    viewModel.articles.collectAsLazyPagingItems()
+                } else {
+                    viewModel.searchResults.collectAsLazyPagingItems()
+                }
+
+                ExploreScreen(
+                    exploreState = state,
                     articles = articles,
                     event = viewModel::onEvent,
                     navigateToDetails = { article ->
-                        navigateToDetails(navController = navController, article = article) }
+                        navigateToDetails(navController = navController, article = article)
+                    }
                 )
             }
 
@@ -171,7 +188,6 @@ fun NewsNavigator(){
             }
 
             composable(route = NewsRouter.SettingsScreen.route){
-                val viewModel: SettingsViewModel = hiltViewModel()
                 SettingsScreen()
             }
         }

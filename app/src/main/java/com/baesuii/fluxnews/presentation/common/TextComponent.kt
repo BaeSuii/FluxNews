@@ -92,7 +92,9 @@ fun TextMarquee(
 @Composable
 fun TextComponentPreview() {
 
-    FluxNewsTheme {
+    FluxNewsTheme(
+        dynamicColor = false
+    ) {
         Column {
             TextH3(textResId = R.string.bookmark)
             TextH4(textResId = R.string.bookmark)

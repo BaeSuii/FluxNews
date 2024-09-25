@@ -89,6 +89,8 @@ dependencies {
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -109,7 +111,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.datastore.preferences)
     implementation(libs.compose.foundation)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
     implementation(libs.room.runtime)
@@ -118,6 +119,7 @@ dependencies {
     implementation(libs.newsapi)
     implementation(libs.lottie.compose)
     implementation (libs.okhttp)
+    implementation (libs.okhttp.logging.interceptor)
 }
 
 ksp {

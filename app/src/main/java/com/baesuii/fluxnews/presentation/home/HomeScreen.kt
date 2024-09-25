@@ -3,18 +3,18 @@ package com.baesuii.fluxnews.presentation.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -22,41 +22,32 @@ import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.domain.model.Source
 import com.baesuii.fluxnews.presentation.article.BreakingNewsList
-import com.baesuii.fluxnews.presentation.common.StatusBar
 import com.baesuii.fluxnews.presentation.common.TextH4
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
-import com.baesuii.fluxnews.presentation.theme.statusBarColorLight
-import com.baesuii.fluxnews.presentation.theme.statusBarColorNight
 import kotlinx.coroutines.flow.flowOf
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen (
-    articles: LazyPagingItems<Article>,
+    everythingNews: LazyPagingItems<Article>,
+    breakingNews: LazyPagingItems<Article>,
     navigateToDetails:(Article) -> Unit
 ){
-    val isDarkTheme = isSystemInDarkTheme()
-    StatusBar(
-        darkTheme = isDarkTheme,
-        darkThemeColor = statusBarColorNight,
-        lightThemeColor = statusBarColorLight
-    )
-
     Scaffold (
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier
+            .fillMaxSize(),
         topBar = { HomeWeatherBar() },
         containerColor = Color.Transparent
-    ){ padding ->
-
-        LazyColumn (
+    ){ paddingValues ->
+        LazyColumn(
             modifier = Modifier
-                .padding(padding)
                 .fillMaxSize()
-        ){
+                .padding(top = paddingValues.calculateTopPadding())
+        ) {
             item {
                 Spacer(modifier = Modifier.height(paddingMedium))
 
@@ -68,9 +59,11 @@ fun HomeScreen (
 
                 BreakingNewsList(
                     modifier = Modifier.fillMaxSize(),
-                    articles = articles,
+                    articles = breakingNews,
                     onClick = { navigateToDetails(it) }
-                )
+                ).also {
+                    Log.d("BreakingNewsSection", "Breaking News - Articles count: ${breakingNews.itemCount}")
+                }
             }
 
             item {
@@ -78,17 +71,18 @@ fun HomeScreen (
 
                 TextH4(
                     modifier = Modifier.padding(start = paddingLarge),
-                    textResId = R.string.trends
+                    textResId = R.string.worldwide
                 )
 
                 Spacer(modifier = Modifier.height(paddingSemiMedium))
 
-                // TODO Trends
                 BreakingNewsList(
                     modifier = Modifier.fillMaxSize(),
-                    articles = articles,
+                    articles = everythingNews,
                     onClick = { navigateToDetails(it) }
-                )
+                ).also {
+                    Log.d("EverythingNewsSection", "Everything News - Articles count: ${everythingNews.itemCount}")
+                }
             }
         }
     }
@@ -98,6 +92,8 @@ fun HomeScreen (
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun HomeScreenPreview(){
+    val viewModel: HomeViewModel = hiltViewModel()
+
     val article = Article(
         author = "Author",
         content = "A random content. A random content. A random content. A random content. A random content.",
@@ -112,9 +108,12 @@ fun HomeScreenPreview(){
     val articlesFlow = flowOf(PagingData.from(listOf(article, article, article, article)))
     val lazyPagingArticles = articlesFlow.collectAsLazyPagingItems()
 
-
-    FluxNewsTheme {
-        HomeScreen(articles = lazyPagingArticles, navigateToDetails = {})
+    FluxNewsTheme(
+        dynamicColor = false
+    ) {
+        HomeScreen(
+            everythingNews = lazyPagingArticles,
+            breakingNews = lazyPagingArticles,
+            navigateToDetails = {})
     }
-
 }

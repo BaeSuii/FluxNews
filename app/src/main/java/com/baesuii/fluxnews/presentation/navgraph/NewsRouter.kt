@@ -5,7 +5,7 @@ sealed class NewsRouter (
 ){
     data object OnboardingScreen: NewsRouter("onboardingScreen")
     data object HomeScreen: NewsRouter("homeScreen")
-    data object SearchScreen: NewsRouter("searchScreen")
+    data object ExploreScreen: NewsRouter("exploreScreen")
     data object BookmarkScreen: NewsRouter("bookmarkScreen")
     data object DetailsScreen: NewsRouter("detailsScreen")
 

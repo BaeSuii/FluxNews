@@ -5,10 +5,10 @@ import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetNewsEverything (
+class GetCategorizedNews(
     private val newsRepository: NewsRepository
 ) {
-    operator fun invoke(sources: List<String>): Flow<PagingData<Article>> {
-        return newsRepository.getNewsEverything(sources)
+    operator fun invoke(category: String, sources: List<String>): Flow<PagingData<Article>> {
+        return newsRepository.getCategorizedNews(category, sources)
     }
 }

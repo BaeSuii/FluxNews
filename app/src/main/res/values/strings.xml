@@ -10,8 +10,8 @@
     <string name="onboarding_description_3">From world events to entertainment buzz, get comprehensive coverage of the latest developments. Your go-to source for all things news is just a tap away.</string>
 
     <!-- Home Screen -->
-    <string name="breaking_news">Breaking News</string>
-    <string name="trends">Trends</string>
+    <string name="breaking_news">USA Breaking News</string>
+    <string name="worldwide">Worldwide</string>
 
     <!-- Menu Navigation -->
     <string name="home">Home</string>
@@ -20,9 +20,9 @@
     <string name="settings">Settings</string>
 
     <!-- Weather -->
-    <string name="weather_greeting_day">Good morning!</string>
-    <string name="weather_greeting_afternoon">Good afternoon!</string>
-    <string name="weather_greeting_evening">Good evening!</string>
+    <string name="weather_greeting_day">Good Morning</string>
+    <string name="weather_greeting_afternoon">Good Afternoon</string>
+    <string name="weather_greeting_evening">Good Evening</string>
     <string name="weather_clear_sky">Clear sky</string>
     <string name="weather_few_clouds">Few clouds</string>
     <string name="weather_scattered_clouds">Scattered clouds</string>
@@ -45,4 +45,8 @@
     <string name="io_exception_error">IO Exception Error</string>
     <string name="http_exception_error">HTTP Exception Error</string>
     <string name="no_saved_news">You have not saved news so far !</string>
+    <string name="dark_mode_on">Dark Mode On</string>
+    <string name="dark_mode_off">Dark Mode Off</string>
+    <string name="enter_nickname">Enter your Nickname</string>
+    <string name="nickname">Nickname</string>
 </resources>

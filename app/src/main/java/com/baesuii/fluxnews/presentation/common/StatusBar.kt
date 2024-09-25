@@ -8,8 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.baesuii.fluxnews.presentation.theme.statusBarColorLight
-import com.baesuii.fluxnews.presentation.theme.statusBarColorNight
 
 @Composable
 fun StatusBar(
