@@ -1,5 +1,6 @@
 package com.baesuii.fluxnews.presentation.explore
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,24 +25,33 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.presentation.article.ArticleListPaging
+import com.baesuii.fluxnews.presentation.common.RefreshArticles
 import com.baesuii.fluxnews.presentation.common.SearchBar
+import com.baesuii.fluxnews.presentation.explore.components.ExploreCategory
+import com.baesuii.fluxnews.presentation.explore.components.ExploreList
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall
+import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
 import com.baesuii.fluxnews.util.Constants
+import com.baesuii.fluxnews.util.Constants.dummyArticle
+import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(
     exploreState: ExploreState,
-    articles: LazyPagingItems<Article>,
     event: (ExploreEvent) -> Unit,
-    navigateToDetails: (Article) -> Unit,
+    articles: LazyPagingItems<Article>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    navigateToDetails: (Article) -> Unit
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
 
@@ -110,21 +120,25 @@ fun ExploreScreen(
                     )
 
                     Spacer(modifier = Modifier.height(paddingMedium))
-
-                    ArticleListPaging(
-                        modifier = Modifier.padding(horizontal = paddingSmall),
-                        articles = articles,
-                        onClick = { article -> navigateToDetails(article) }
-                    )
+                    RefreshArticles(
+                        isRefreshing = isRefreshing,
+                        onRefresh = onRefresh,
+                        modifier = Modifier
+                    ) {
+                        ExploreList(
+                            modifier = Modifier.padding(horizontal = paddingSmall),
+                            articles = articles,
+                            onClick = {  article -> navigateToDetails(article) }
+                        )
+                    }
 
                 } else {
                     exploreState.articles?.let {
                         val searchArticles = it.collectAsLazyPagingItems()
-                        ArticleListPaging(
+                        ExploreList(
                             modifier = Modifier.padding(horizontal = paddingSmall),
                             articles = searchArticles,
-                            onClick = { article -> navigateToDetails(article)
-                            }
+                            onClick = { article -> navigateToDetails(article) }
                         )
                     }
                 }
@@ -133,21 +147,27 @@ fun ExploreScreen(
     }
 }
 
-//@Preview(showBackground = true)
-//@Preview(uiMode = UI_MODE_NIGHT_YES)
-//@Composable
-//fun PreviewSearchScreen() {
-//    val dummyState = ExploreState(
-//        searchQuery = "Test Search",
-//        articles = null // or pass some mock data for testing
-//    )
-//    FluxNewsTheme {
-//        ExploreScreen(
-//            state = dummyState,
-//            event = { /* Handle search event */ },
-//            navigateToDetails = { /* Handle navigation */ }
-//        )
-//    }
-//}
+@Preview(showBackground = true)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewSearchScreen() {
+    val dummyState = ExploreState(
+        searchQuery = "Test Search",
+        articles = null
+    )
+    val articlesFlow = flowOf(PagingData.from(listOf(dummyArticle, dummyArticle, dummyArticle, dummyArticle)))
+    val lazyPagingArticles = articlesFlow.collectAsLazyPagingItems()
+
+    FluxNewsTheme {
+        ExploreScreen(
+            exploreState = dummyState,
+            event = { /* Handle search event */ },
+            navigateToDetails = { /* Handle navigation */ },
+            articles = lazyPagingArticles,
+            isRefreshing = false,
+            onRefresh = {}
+        )
+    }
+}
 
 

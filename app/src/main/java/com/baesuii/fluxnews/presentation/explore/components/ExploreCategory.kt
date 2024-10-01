@@ -1,10 +1,9 @@
-package com.baesuii.fluxnews.presentation.explore
+package com.baesuii.fluxnews.presentation.explore.components
 
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ButtonDefaults
@@ -28,9 +27,6 @@ fun ExploreCategory(
     selectedCategory: String,
     onCategorySelected: (String) -> Unit
 ) {
-    val isDarkTheme = isSystemInDarkTheme()
-    val buttonColor = if (isDarkTheme) Color(0xFF1A1A1A) else Color(0xFFE9EEFA)
-
     Column(
         modifier = modifier
     ) {
@@ -54,10 +50,10 @@ fun ExploreCategory(
                         .fillMaxWidth(0.8f),
                     colors = ButtonDefaults.outlinedButtonColors(
                         containerColor =
-                        if (selectedCategory == category) buttonColor
+                        if (selectedCategory == category) MaterialTheme.colorScheme.surface
                         else Color.Transparent
                     ),
-                    border = BorderStroke(1.dp, buttonColor)
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface)
                 ) {
                     Text(
                         text = category,

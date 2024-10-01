@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.domain.use_case.news.NewsUseCases
+import com.baesuii.fluxnews.domain.use_case.NewsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

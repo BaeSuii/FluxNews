@@ -10,7 +10,7 @@
     <string name="onboarding_description_3">From world events to entertainment buzz, get comprehensive coverage of the latest developments. Your go-to source for all things news is just a tap away.</string>
 
     <!-- Home Screen -->
-    <string name="breaking_news">USA Breaking News</string>
+    <string name="breaking_news">Breaking News</string>
     <string name="worldwide">Worldwide</string>
 
     <!-- Menu Navigation -->
@@ -23,15 +23,6 @@
     <string name="weather_greeting_day">Good Morning</string>
     <string name="weather_greeting_afternoon">Good Afternoon</string>
     <string name="weather_greeting_evening">Good Evening</string>
-    <string name="weather_clear_sky">Clear sky</string>
-    <string name="weather_few_clouds">Few clouds</string>
-    <string name="weather_scattered_clouds">Scattered clouds</string>
-    <string name="weather_broken_clouds">Broken Clouds</string>
-    <string name="weather_shower_rain">Shower rain</string>
-    <string name="weather_rain">Rain</string>
-    <string name="weather_thunderstorm">Thunderstorm</string>
-    <string name="weather_snow">Snow</string>
-    <string name="weather_mist">Mist</string>
 
     <!-- Settings Screen -->
     <string name="theme">Theme</string>">
@@ -49,4 +40,11 @@
     <string name="dark_mode_off">Dark Mode Off</string>
     <string name="enter_nickname">Enter your Nickname</string>
     <string name="nickname">Nickname</string>
+
+    <!-- User Prompts -->
+    <string name="server_unavailable">Server Unavailable</string>
+    <string name="internet_unavailable">Internet Unavailable</string>
+    <string name="rate_limit_exceeded">Api reached its limit. Please try again after 24 hours.</string>
+    <string name="unknown_error">Unknown Error</string>
+    
 </resources>

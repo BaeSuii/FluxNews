@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.baesuii.fluxnews.domain.use_case.app_entry.AppEntryUseCases
+import com.baesuii.fluxnews.domain.use_case.AppEntryUseCases
 import com.baesuii.fluxnews.presentation.navgraph.NewsRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

@@ -5,6 +5,7 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.Date
 import java.util.TimeZone
+import java.util.concurrent.TimeUnit
 
 fun formatDate(dateString: String): String {
     return try {
@@ -13,8 +14,23 @@ fun formatDate(dateString: String): String {
         val date: Date? = originalFormat.parse(dateString)
 
         if (date != null) {
-            val targetFormat = SimpleDateFormat("HH:mm - MMM dd, yyyy", Locale.getDefault())
-            targetFormat.format(date)
+            val now = Date()
+            val diffInMillis = now.time - date.time
+
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
+            val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
+
+            when {
+                minutes < 1 -> "Just now"
+                minutes == 1L -> "1 minute ago"
+                minutes < 60 -> "$minutes minutes ago"
+                hours == 1L -> "1 hour ago"
+                hours < 24 -> "$hours hours ago"
+                else -> {
+                    val fullDateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                    fullDateFormat.format(date)
+                }
+            }
         } else {
             dateString
         }

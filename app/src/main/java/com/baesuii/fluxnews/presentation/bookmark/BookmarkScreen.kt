@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.presentation.article.ArticleList
+import com.baesuii.fluxnews.presentation.explore.components.ArticleList
 import com.baesuii.fluxnews.presentation.common.TextH3
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall

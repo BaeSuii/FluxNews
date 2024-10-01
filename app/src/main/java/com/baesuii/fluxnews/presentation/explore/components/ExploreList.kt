@@ -1,4 +1,4 @@
-package com.baesuii.fluxnews.presentation.article
+package com.baesuii.fluxnews.presentation.explore.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ fun ArticleList (
     ){
         items(count = articles.size){
             val article = articles[it]
-                ArticleCard(
+                ExploreCard(
                     article = article,
                     onClick = { onClick(article) }
                 )
@@ -40,26 +40,23 @@ fun ArticleList (
 }
 
 @Composable
-fun ArticleListPaging (
+fun ExploreList(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClick: (Article) -> Unit
-){
-    // Displays list of articles if data is loaded.
-    val handlePagingResult = handlePagingResult(articles = articles)
-    if (handlePagingResult) {
-        LazyColumn (
+) {
+    // Handles paging state and shows a shimmer effect if loading
+    val handlePagingResult = explorePagingResult(articles = articles)
+
+    if (handlePagingResult && articles.itemCount > 0) {
+        LazyColumn(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(paddingMedium),
             contentPadding = PaddingValues(all = paddingExtraSmall)
-        ){
-            items(count = articles.itemCount){
-                // Goes through each article in the list
-                // Show ArticleCard if article is not null
-                // Calls onClick when user clicks
-                articles[it]?.let { article ->
-
-                    ArticleCard(
+        ) {
+            items(count = articles.itemCount) { index ->
+                articles[index]?.let { article ->
+                    ExploreCard(
                         article = article,
                         onClick = { onClick(article) }
                     )
@@ -70,7 +67,7 @@ fun ArticleListPaging (
 }
 
 @Composable
-fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
+private fun explorePagingResult(articles: LazyPagingItems<Article>): Boolean {
 
     // Handles 3 paging states: loading, error, or success.
     val loadState = articles.loadState
@@ -83,21 +80,18 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
 
     return when{
         loadState.refresh is LoadState.Loading ->{
-            // Show shimmer while loading
             ShimmerEffect()
             false
         }
         error != null ->{
-            // Show empty screen if error occurs
             EmptyScreen(error = error)
             false
         }
-        //No article to show
         articles.itemCount < 1 ->{
             EmptyScreen()
             false
         }
-        else -> true // Data loaded successfully
+        else -> true
     }
 }
 
@@ -106,7 +100,7 @@ private fun ShimmerEffect() {
     // Shows shimmer loading effect.
     Column (verticalArrangement = Arrangement.spacedBy(paddingMedium)){
         repeat(10){
-            ArticleCardEffect(
+            ExploreCardEffect(
                 modifier = Modifier.padding(horizontal = paddingMedium)
             )
         }

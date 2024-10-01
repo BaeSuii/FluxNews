@@ -10,9 +10,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.baesuii.fluxnews.domain.manager.ArticleCacheManager
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.domain.use_case.news.NewsUseCases
+import com.baesuii.fluxnews.domain.use_case.NewsUseCases
 import com.baesuii.fluxnews.util.Constants.CATEGORY_LIST
 import com.baesuii.fluxnews.util.Constants.FIVE_MINUTES_MILLIS
+import com.baesuii.fluxnews.util.filterArticles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,6 +36,9 @@ class ExploreViewModel @Inject constructor(
     private val categoryArticlesMap = mutableMapOf<String, PagingData<Article>>()
     private var _articles = MutableStateFlow<PagingData<Article>>(PagingData.empty())
     val articles: StateFlow<PagingData<Article>> = _articles
+
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
 
     // Handle search news results
     private var _searchResults = MutableStateFlow<PagingData<Article>>(PagingData.empty())
@@ -61,6 +65,14 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
+    fun refreshArticles() {
+        _isRefreshing.value = true
+        viewModelScope.launch {
+            refreshAllCategories()
+            _isRefreshing.value = false
+        }
+    }
+
     private fun fetchInitialDataForAllCategories() {
         CATEGORY_LIST.forEach { category ->
             getCategorizedNews(category)
@@ -73,7 +85,7 @@ class ExploreViewModel @Inject constructor(
             if (cachedArticles != null) {
                 // Use cached data
                 if (category == state.value.selectedCategory) {
-                    _articles.value = cachedArticles
+                    _articles.value = cachedArticles.filterArticles()
                 }
             } else {
                 // Fetch from API if no cache
@@ -86,11 +98,12 @@ class ExploreViewModel @Inject constructor(
         newsUseCases.getCategorizedNews(category, listOf("bbc-news", "abc-news", "cnn"))
             .cachedIn(viewModelScope)
             .collectLatest { articles ->
-                articleCacheManager.cacheArticles(category, articles)
-                categoryArticlesMap[category] = articles
+                val validArticles = articles.filterArticles()
+                articleCacheManager.cacheArticles(category, validArticles)
+                categoryArticlesMap[category] = validArticles
 
                 if (category == state.value.selectedCategory) {
-                    _articles.value = articles
+                    _articles.value = validArticles
                 }
             }
     }
@@ -123,7 +136,7 @@ class ExploreViewModel @Inject constructor(
                 sources = listOf("bbc-news", "abc-news", "cnn")
             ).cachedIn(viewModelScope)
                 .collectLatest { articles ->
-                    _searchResults.value = articles
+                    _searchResults.value = articles.filterArticles()
                 }
         }
     }

@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,7 +56,7 @@ fun OnboardingPageImage(
     modifier: Modifier = Modifier,
     page: Page
 ) {
-    Box(modifier = Modifier
+    Box(modifier = modifier
         .fillMaxWidth()
         .fillMaxHeight(0.7f)
     ) {
@@ -72,14 +71,13 @@ fun OnboardingPageImage(
 
 @Composable
 fun OnboardingPageText(
-    modifier: Modifier = Modifier,
     page: Page
 ) {
     Column (horizontalAlignment = Alignment.CenterHorizontally){
         Text(
             text = page.title,
             style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.SemiBold),
-            color = colorResource(id = R.color.display_small),
+            color = MaterialTheme.colorScheme.tertiary,
             textAlign = TextAlign.Center
         )
 

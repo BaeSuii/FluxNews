@@ -114,9 +114,9 @@ fun DetailsTopBarPreview(){
     ) {
         Box(modifier = Modifier.background(Color.Transparent)) {
             DetailsBar(
-                onBrowsingClick = { /*TODO*/ },
-                onShareClick = { /*TODO*/ },
-                onBookmarkClick = { /*TODO*/ }) {
+                onBrowsingClick = {},
+                onShareClick = {},
+                onBookmarkClick = {}) {
             }
         }
     }
