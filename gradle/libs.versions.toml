@@ -35,7 +35,6 @@ uiTestAndroid = "1.7.2"
 runtimeLivedata = "1.7.2"
 appcompat = "1.7.0"
 constraintlayout = "1.0.1"
-firebaseCrashlyticsBuildtools = "3.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +53,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 #Other ---------------------------------------------------------
+androidx-material = { group = "androidx.compose.material", name = "material" }
+
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNav" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
@@ -86,7 +87,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 lottie_compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie_compose" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp_logging_interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

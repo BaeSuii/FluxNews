@@ -61,6 +61,9 @@ fun UserProfileSection(
 
     var isEditing by remember { mutableStateOf(false) }
     var editableNickname by remember { mutableStateOf(nickname) }
+    LaunchedEffect(nickname) {
+        editableNickname = nickname
+    }
 
     var emojiIndex by remember { mutableIntStateOf(Constants.emojis.indexOf(selectedEmoji)) }
 
@@ -119,6 +122,7 @@ fun UserProfileSection(
         modifier = Modifier
             .fillMaxWidth()
             .padding(paddingMedium)
+            .offset(y = (12).dp)
     ) {
 
         Box(
@@ -232,7 +236,7 @@ fun UserProfileSection(
                 modifier = Modifier
                     .layoutId("emoji")
                     .align(Alignment.TopCenter)
-                    .offset(y = (-46).dp)
+                    .offset(y = (-44).dp)
                     .zIndex(1f)
             ) {
                 Button(
@@ -245,8 +249,8 @@ fun UserProfileSection(
                         containerColor = Color.Transparent,
                         contentColor = Color.Unspecified,
                         disabledContainerColor = Color.Transparent,
-                        disabledContentColor = Color.Unspecified
-                    ),
+                        disabledContentColor = Color.Transparent
+                    )
                 ) {
                     Text(
                         text = selectedEmoji,

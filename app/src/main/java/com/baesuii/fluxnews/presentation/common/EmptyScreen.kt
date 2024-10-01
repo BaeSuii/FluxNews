@@ -1,5 +1,6 @@
 package com.baesuii.fluxnews.presentation.common
 
+import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -27,12 +28,14 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.presentation.theme.Dimensions.iconErrorSize
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
+import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -42,7 +45,7 @@ fun EmptyScreen(error: LoadState.Error? = null) {
     val context = LocalContext.current
 
     var message by remember {
-        mutableStateOf(parseErrorMessage(error = error))
+        mutableStateOf(parseErrorMessage(context = context, error = error))
     }
 
     var icon by remember {
@@ -52,6 +55,11 @@ fun EmptyScreen(error: LoadState.Error? = null) {
     if (error == null){
         message = context.getString(R.string.no_saved_news)
         icon = R.drawable.ic_search_document
+    }
+
+    if (error?.error is HttpException && (error.error as HttpException).code() == 429) {
+        message = context.getString(R.string.rate_limit_exceeded)
+        icon = R.drawable.ic_network_error
     }
 
     var startAnimation by remember {
@@ -91,17 +99,19 @@ fun EmptyContent(alphaAnim: Float, message: String, iconId: Int) {
                 .padding(10.dp)
                 .alpha(alphaAnim),
             text = message,
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
             color = if (isSystemInDarkTheme()) LightGray else DarkGray,
+            textAlign = TextAlign.Center
         )
     }
 }
 
-fun parseErrorMessage(error: LoadState.Error?): String {
+fun parseErrorMessage(context: Context, error: LoadState.Error?): String {
     return when (error?.error) {
-        is SocketTimeoutException -> { "Server Unavailable." }
-        is ConnectException -> { "Internet Unavailable." }
-        else -> { "Unknown Error." }
+        is SocketTimeoutException -> { context.getString(R.string.server_unavailable) }
+        is ConnectException -> { context.getString(R.string.internet_unavailable) }
+        is HttpException -> { context.getString(R.string.rate_limit_exceeded) }
+        else -> context.getString(R.string.unknown_error)
     }
 }
 
@@ -109,9 +119,15 @@ fun parseErrorMessage(error: LoadState.Error?): String {
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun EmptyScreenPreview() {
+    val context = LocalContext.current
+
     FluxNewsTheme(
         dynamicColor = false
     ) {
-        EmptyContent(alphaAnim = 0.3f, message = "Internet Unavailable.",R.drawable.ic_network_error)
+        EmptyContent(
+            alphaAnim = 0.3f,
+            message = context.getString(R.string.internet_unavailable),
+            R.drawable.ic_network_error
+        )
     }
 }

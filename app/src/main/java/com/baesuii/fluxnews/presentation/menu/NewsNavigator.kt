@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import com.baesuii.fluxnews.presentation.navgraph.NewsRouter
 import com.baesuii.fluxnews.presentation.explore.ExploreScreen
 import com.baesuii.fluxnews.presentation.explore.ExploreViewModel
 import com.baesuii.fluxnews.presentation.settings.SettingsScreen
+import com.baesuii.fluxnews.presentation.settings.SettingsViewModel
 
 @Composable
 fun NewsNavigator(){
@@ -126,11 +128,18 @@ fun NewsNavigator(){
             modifier = Modifier.padding(bottom = bottomPadding)
         ){
             composable(route = NewsRouter.HomeScreen.route){
-                val viewModel: HomeViewModel = hiltViewModel()
-                val everythingNews = viewModel.everythingNews.collectAsLazyPagingItems()
-                val breakingNews = viewModel.breakingNews.collectAsLazyPagingItems()
+                val homeViewModel: HomeViewModel = hiltViewModel()
+                val settingsViewModel: SettingsViewModel = hiltViewModel()
+                val everythingNews = homeViewModel.everythingNews.collectAsLazyPagingItems()
+                val breakingNews = homeViewModel.breakingNews.collectAsLazyPagingItems()
+                val weatherData by homeViewModel.weatherData.collectAsState(initial = null)
+                val nickname by settingsViewModel.nickname.collectAsState(initial = "")
+                val selectedEmoji by settingsViewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
 
                 HomeScreen(
+                    weatherData = weatherData,
+                    nickname = nickname,
+                    selectedEmoji = selectedEmoji,
                     everythingNews = everythingNews,
                     breakingNews = breakingNews,
                     navigateToDetails = { article ->
@@ -152,6 +161,8 @@ fun NewsNavigator(){
                     exploreState = state,
                     articles = articles,
                     event = viewModel::onEvent,
+                    isRefreshing = viewModel.isRefreshing.value,
+                    onRefresh = { viewModel.refreshArticles() },
                     navigateToDetails = { article ->
                         navigateToDetails(navController = navController, article = article)
                     }

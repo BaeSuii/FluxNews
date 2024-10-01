@@ -2,7 +2,7 @@ package com.baesuii.fluxnews.presentation.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.baesuii.fluxnews.domain.use_case.app_entry.AppEntryUseCases
+import com.baesuii.fluxnews.domain.use_case.AppEntryUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

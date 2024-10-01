@@ -17,7 +17,7 @@ val backgroundPrimaryLight = Color(0xFFF3F3F3)
 val backgroundSecondaryLight = Color(0xFFFFFFFF)
 
 // Bottom Navigation Color
-val bottomNavigationBackgroundLight = Color(0xFFE9EEFA)
+val bottomNavigationBackgroundLight = Color(0xFFD5DCEE)
 
 // System Colors
 val systemErrorLight = Color(0xFFE02607)

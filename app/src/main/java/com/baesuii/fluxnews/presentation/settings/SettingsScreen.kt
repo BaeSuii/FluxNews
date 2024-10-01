@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,8 +42,8 @@ fun SettingsScreen(
 ) {
     val theme by viewModel.theme.collectAsState()
     val nickname by viewModel.nickname.collectAsState()
-    var nicknameInput by remember { mutableStateOf(nickname) }
     val selectedEmoji by viewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
+    var editableNickname by rememberSaveable { mutableStateOf(nickname) }
 
     val context = LocalContext.current
 
@@ -51,10 +51,10 @@ fun SettingsScreen(
         modifier = modifier,
         darkMode = context.darkMode(isDarkModeEnabled = theme),
         appVersion  = context.appVersion(appVersion = context.getAppVersionName()),
-        nickname = nicknameInput,  // Pass the nickname
+        nickname = nickname,
         onNicknameChange = { newNickname ->
-            nicknameInput = newNickname
-            viewModel.updateNickname(newNickname) // Update nickname in DataStore
+            editableNickname = newNickname
+            viewModel.updateNickname(newNickname)
         },
         selectedEmoji = selectedEmoji,
         onEmojiChange = { newEmoji ->

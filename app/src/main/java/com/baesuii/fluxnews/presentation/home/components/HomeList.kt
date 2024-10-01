@@ -1,50 +1,62 @@
-package com.baesuii.fluxnews.presentation.article
+package com.baesuii.fluxnews.presentation.home.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.presentation.common.EmptyScreen
-import com.baesuii.fluxnews.presentation.home.HomeBreakingNews
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingZero
 
 
 @Composable
-fun BreakingNewsList (
+fun HomeList (
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClick: (Article) -> Unit
 ) {
     // Displays list of articles if data is loaded.
-    val breakingNewsHandlePagingResult = breakingNewsHandlePagingResult(articles = articles)
+    val breakingNewsHandlePagingResult = homePagingResult(articles = articles)
 
     if (breakingNewsHandlePagingResult) {
 
-        LazyRow(
-            modifier = modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(paddingMedium)
-        ) {
-            items(count = minOf(articles.itemCount, 5)) { index ->
-
-                articles[index]?.let { article ->
-                    HomeBreakingNews(
+        if (articles.itemCount > 0) {
+            LazyRow(
+                modifier = modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.spacedBy(paddingMedium)
+            ) {
+                items(count = minOf(articles.itemCount, 5)) { index ->
+                    val article = articles[index]
+                    HomeCard(
                         modifier = Modifier.padding(
                             start = if (index == 0) paddingLarge else paddingZero,
                             end = if (index == 4) paddingLarge else paddingZero
                         ),
-                        article = article,
-                        onClick = { onClick(article) }
+                        article = article!!,
+                        onClick = { onClick(article)}
                     )
                 }
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No breaking news available",
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
     }
@@ -52,7 +64,7 @@ fun BreakingNewsList (
 
 
 @Composable
-fun breakingNewsHandlePagingResult(articles: LazyPagingItems<Article>): Boolean {
+private fun homePagingResult(articles: LazyPagingItems<Article>): Boolean {
 
     // Handles 3 paging states: loading, error, or success.
     val loadState = articles.loadState
@@ -65,16 +77,13 @@ fun breakingNewsHandlePagingResult(articles: LazyPagingItems<Article>): Boolean 
 
     return when{
         loadState.refresh is LoadState.Loading ->{
-            // Show shimmer while loading
             ShimmerEffect()
             false
         }
         error != null ->{
-            // Show empty screen if error occurs
             EmptyScreen(error = error)
             false
         }
-        //No article to show
         articles.itemCount < 1 ->{
             EmptyScreen()
             false
