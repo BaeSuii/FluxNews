@@ -10,7 +10,7 @@ interface NewsRepository {
     fun getNewsEverything(sources: List<String>): Flow<PagingData<Article>>
 
     //Explore Screen
-    fun getCategorizedNews(category: String, sources: List<String>) : Flow<PagingData<Article>>
+    fun getCategorizedNews(category: String) : Flow<PagingData<Article>>
     fun getNewsCategories() : List<String>
     fun searchNews(searchQuery: String, sources: List<String>): Flow<PagingData<Article>>
 }

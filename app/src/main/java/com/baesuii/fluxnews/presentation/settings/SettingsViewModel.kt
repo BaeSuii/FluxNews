@@ -6,9 +6,9 @@ import com.baesuii.fluxnews.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,6 +55,20 @@ class SettingsViewModel @Inject constructor(
     fun updateSelectedEmoji(emoji: String) {
         viewModelScope.launch {
             settingsRepository.updateSelectedEmoji(emoji)
+        }
+    }
+
+    // Timezone
+    val selectedTimezone: StateFlow<String> = settingsRepository.getTimezone()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = TimeZone.getDefault().id  // Default to system timezone
+        )
+
+    fun updateTimezone(newTimezone: String) {
+        viewModelScope.launch {
+            settingsRepository.updateTimezone(newTimezone)
         }
     }
 }

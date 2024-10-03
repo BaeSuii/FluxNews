@@ -15,8 +15,12 @@ object Dimensions {
     val paddingLarge = 30.dp
     val paddingExtraLarge = 32.dp
 
-    val normalButtonHeight = 56.dp
-    val minButtonWidth = 120.dp
+    val borderSmall = 2.dp
+
+    val cornerNormal = 30.dp
+    val cornerMedium = 32.dp
+    val cornerLarge = 40.dp
+    val cornerExtraLarge = 50.dp
 
     val iconXXSmall = 4.dp
     val iconExtraSmall = 8.dp
@@ -32,18 +36,23 @@ object Dimensions {
     val articleCardSizeHeight = 80.dp
     val articleCardSizeWidth = 112.dp
 
-    val homeBreakingNewsWidth = 260.dp
-    val homeBreakingNewsHeight = 350.dp
+    val onBoardingDescription = 200.dp
 
-    val topBarHeight = 140.dp
+    val homeBreakingNewsWidth = 260.dp
+    val homeBreakingNewsHeight = 355.dp
+
+    val topBarHeight = 120.dp
     val bottomNavigationItemHeight = 40.dp
     val articleNavigationHeight = 70.dp
 
-    val lazyRowArticleWidth = 1330.dp
+    val nicknameInputHeight = 100.dp
 
     val toggleButtonHeight = 35.dp
     val toggleButtonWidth = 70.dp
-    val nicknameInputHeight = 100.dp
+
+    val mainButtonWidth = 165.dp
+    val mainButtonHeight = 56.dp
+
 
 
 

@@ -11,88 +11,96 @@ import com.baesuii.fluxnews.R
 val Poppins = FontFamily(
     fonts = listOf(
         Font(R.font.poppins_regular, FontWeight.Normal),
-        Font(R.font.poppins_bold, FontWeight.Bold),
         Font(R.font.poppins_semibold, FontWeight.SemiBold),
+        Font(R.font.poppins_bold, FontWeight.Bold)
     )
 )
 
 val Typography = Typography(
-    // Home news subtitle, Search result title, Bookmark Title
-    headlineSmall = TextStyle(
-        fontSize = 18.sp,
-        fontFamily = Poppins,
-        fontWeight = FontWeight.SemiBold,
-        lineHeight = 24.sp,
-    ),
-    // Home news title
-    headlineMedium = TextStyle(
-        fontSize = 24.sp,
-        fontFamily = Poppins,
-        fontWeight = FontWeight.SemiBold,
-        lineHeight = 28.sp,
-    ),
-    // Onboarding message, Article Title, Bookmark Header
+
+    // Onboarding and Screens Title
     headlineLarge = TextStyle(
         fontSize = 32.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
         lineHeight = 40.sp,
     ),
-    // Normal or SemiBold. Home news body, Search result category
-    bodySmall = TextStyle(
-        fontSize = 14.sp,
+    // Home - News Header
+    headlineMedium = TextStyle(
+        fontSize = 24.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 20.sp,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 28.sp,
     ),
-    // Normal or SemiBold. For text buttons
-    // For Article Body, change lineHeight to 30.sp
-    bodyMedium = TextStyle(
+    // Weather Text
+    headlineSmall = TextStyle(
+        fontSize = 18.sp,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 24.sp,
+    ),
+    // Home - Article Title
+    titleLarge = TextStyle(
+        fontSize = 24.sp, //replace 16 later
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 28.sp, //replace 24 later
+    ),
+    // Settings - Option Title
+    titleMedium = TextStyle(
         fontSize = 16.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         lineHeight = 20.sp,
     ),
-    // For Buttons. For medium, change to 16/20
-    bodyLarge = TextStyle(
-        fontSize = 20.sp,
+    // Explore - Article Title
+    titleSmall = TextStyle(
+        fontSize = 18.sp, //replace 14 later
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 24.sp,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 24.sp, //replace to 20 later
     ),
-    displaySmall = TextStyle(
+    // Onboarding - Description
+    bodyLarge = TextStyle(
         fontSize = 24.sp,
         fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 36.sp,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 28.sp,
     ),
-    displayMedium = TextStyle(
-        fontSize = 32.sp,
+    // Details - Content, Search Bar Text, Category
+    bodyMedium = TextStyle(
+        fontSize = 16.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
-        lineHeight = 48.sp,
+        lineHeight = 30.sp,
     ),
-    // Annotation or footnote, article author, search result author/date
-    // Bookmark tag
+    // Explore & Details - Date
+    bodySmall = TextStyle(
+        fontSize = 12.sp,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 20.sp,
+    ),
+    // Onboarding - Button Text
+    labelLarge = TextStyle(
+        fontSize = 20.sp,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        lineHeight = 28.sp,
+    ),
+    // Home News (Source - SemiBold, Desc - Normal), Explore News & Details Source
+    labelMedium = TextStyle(
+        fontSize = 14.sp,  //replace 10 later
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        lineHeight = 20.sp, //replace 16 later
+    ),
+
+    // Settings Description, Timezone Dialog
     labelSmall = TextStyle(
         fontSize = 12.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         lineHeight = 18.sp,
-    ),
-    //Search Bar
-    labelMedium = TextStyle(
-        fontSize = 17.sp,
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 22.sp,
-    ),
-    //Onboarding Description
-    labelLarge = TextStyle(
-        fontSize = 18.sp,
-        fontFamily = Poppins,
-        fontWeight = FontWeight.Normal,
-        lineHeight = 24.sp,
-    ),
-
+    )
 )

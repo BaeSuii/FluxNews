@@ -9,6 +9,6 @@ import com.baesuii.fluxnews.domain.model.Article
 @TypeConverters(NewsTypeConverter::class)
 abstract class NewsDatabase: RoomDatabase(){
 
-    abstract val newsDao: NewsDao
+    abstract fun newsDao(): NewsDao
 
 }

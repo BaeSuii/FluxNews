@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,6 +41,7 @@ import com.baesuii.fluxnews.presentation.explore.ExploreScreen
 import com.baesuii.fluxnews.presentation.explore.ExploreViewModel
 import com.baesuii.fluxnews.presentation.settings.SettingsScreen
 import com.baesuii.fluxnews.presentation.settings.SettingsViewModel
+import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingZero
 
 @Composable
 fun NewsNavigator(){
@@ -58,7 +61,6 @@ fun NewsNavigator(){
     
     val navController = rememberNavController()
     val backStackState = navController.currentBackStackEntryAsState()
-//    Log.d("CurrentRoute", "Current Route: ${backStackState.value?.destination?.route}")
 
     var selectedItem by rememberSaveable {
         mutableIntStateOf(0)
@@ -80,7 +82,6 @@ fun NewsNavigator(){
                 backStackState.value?.destination?.route == NewsRouter.BookmarkScreen.route ||
                 backStackState.value?.destination?.route == NewsRouter.SettingsScreen.route
     }
-//    Log.d("BottomNavVisibility", "isBottomBarVisible: $isBottomBarVisible")
 
     Scaffold (
         modifier = Modifier.fillMaxSize(),
@@ -120,8 +121,9 @@ fun NewsNavigator(){
                 )
             }
         }
-    ){
-        val bottomPadding = it.calculateBottomPadding()
+    ){ innerPadding ->
+        val bottomPadding = if (isBottomBarVisible) innerPadding.calculateBottomPadding() else paddingZero
+
         NavHost(
             navController = navController,
             startDestination = NewsRouter.HomeScreen.route,
@@ -135,9 +137,15 @@ fun NewsNavigator(){
                 val weatherData by homeViewModel.weatherData.collectAsState(initial = null)
                 val nickname by settingsViewModel.nickname.collectAsState(initial = "")
                 val selectedEmoji by settingsViewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
+                val selectedCity by settingsViewModel.selectedTimezone.collectAsState()
+
+                LaunchedEffect(Unit) {
+                    homeViewModel.fetchWeatherData()
+                }
 
                 HomeScreen(
                     weatherData = weatherData,
+                    selectedCity = selectedCity,
                     nickname = nickname,
                     selectedEmoji = selectedEmoji,
                     everythingNews = everythingNews,
@@ -151,15 +159,13 @@ fun NewsNavigator(){
             composable(route = NewsRouter.ExploreScreen.route){
                 val viewModel: ExploreViewModel = hiltViewModel()
                 val state = viewModel.state.value
-                val articles = if (state.searchQuery.isEmpty()) {
-                    viewModel.articles.collectAsLazyPagingItems()
-                } else {
-                    viewModel.searchResults.collectAsLazyPagingItems()
-                }
+                val articles = viewModel.articles.collectAsLazyPagingItems()
+                val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
 
                 ExploreScreen(
                     exploreState = state,
                     articles = articles,
+                    searchResults = searchResults,
                     event = viewModel::onEvent,
                     isRefreshing = viewModel.isRefreshing.value,
                     onRefresh = { viewModel.refreshArticles() },
@@ -179,7 +185,10 @@ fun NewsNavigator(){
                     DetailsScreen(
                         article = article,
                         event = viewModel::onEvent,
-                        navigateUp = {navController.navigateUp()}
+                        navigateUp = {
+                            navController.navigateUp()
+                            navController.currentBackStackEntry?.savedStateHandle?.remove<Article>("article")
+                        }
                     )
                 }
             }
@@ -199,7 +208,15 @@ fun NewsNavigator(){
             }
 
             composable(route = NewsRouter.SettingsScreen.route){
-                SettingsScreen()
+                val homeViewModel: HomeViewModel = hiltViewModel()
+                var showTimezoneDialog by remember { mutableStateOf(false) }
+
+                SettingsScreen(
+                    homeViewModel = homeViewModel,
+                    showTimezoneDialog = showTimezoneDialog,
+                    onShowTimezoneDialog = { showTimezoneDialog = true },
+                    onDismissTimezoneDialog = { showTimezoneDialog = false }
+                )
             }
         }
     }

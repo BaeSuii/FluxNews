@@ -9,17 +9,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.baesuii.fluxnews.R
+import com.baesuii.fluxnews.presentation.common.OnboardingDescriptionText
+import com.baesuii.fluxnews.presentation.common.ContentTitleText
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingNormal
 
 data class Page(
@@ -61,7 +60,7 @@ fun OnboardingPageImage(
         .fillMaxHeight(0.7f)
     ) {
         Image(
-            painter = painterResource(id = page.image), // replace with your image resource
+            painter = painterResource(id = page.image),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -74,20 +73,15 @@ fun OnboardingPageText(
     page: Page
 ) {
     Column (horizontalAlignment = Alignment.CenterHorizontally){
-        Text(
+
+        ContentTitleText(
             text = page.title,
-            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.SemiBold),
-            color = MaterialTheme.colorScheme.tertiary,
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(paddingNormal))
 
-        Text(
-            text = page.description,
-            style = MaterialTheme.typography.headlineSmall.copy(),
-            color = MaterialTheme.colorScheme.secondary,
-            textAlign = TextAlign.Center
-        )
+        OnboardingDescriptionText(text = page.description)
+
     }
 }

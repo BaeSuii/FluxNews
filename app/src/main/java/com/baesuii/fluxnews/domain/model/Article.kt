@@ -17,3 +17,9 @@ data class Article(
     @PrimaryKey val url: String,
     val urlToImage: String
 ) : Parcelable
+
+@Parcelize
+data class Source(
+    val id: String?,
+    val name: String
+): Parcelable

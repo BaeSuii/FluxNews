@@ -12,8 +12,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import com.baesuii.fluxnews.R
@@ -22,7 +26,74 @@ import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
 
 @Composable
-fun TextH3(
+fun MainButtonText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.labelLarge
+    )
+}
+
+@Composable
+fun CategoryButtonText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.bodySmall
+    )
+}
+
+@Composable
+fun WeatherText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.secondary
+    )
+}
+
+
+@Composable
+fun ContentTitleText(
+    modifier: Modifier = Modifier,
+    text: String,
+    textAlign: TextAlign
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.headlineLarge,
+        color = MaterialTheme.colorScheme.tertiary,
+        textAlign = textAlign
+    )
+}
+
+@Composable
+fun OnboardingDescriptionText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.headlineSmall,
+        color = MaterialTheme.colorScheme.secondary,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun ScreenTitleTextLarge(
     modifier: Modifier = Modifier,
     textResId: Int
 ){
@@ -35,7 +106,7 @@ fun TextH3(
 }
 
 @Composable
-fun TextH4(
+fun ScreenTitleTextSmall(
     modifier: Modifier = Modifier,
     textResId: Int
 ){
@@ -48,17 +119,108 @@ fun TextH4(
 }
 
 @Composable
-fun TextH5(
+fun CardTitleTextLarge(
     modifier: Modifier = Modifier,
-    textResId: Int
+    text: String
 ){
     Text(
         modifier = modifier,
-        text = stringResource(id = textResId),
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
         color = MaterialTheme.colorScheme.tertiary,
-        style = MaterialTheme.typography.headlineSmall
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
     )
 }
+
+@Composable
+fun CardSourceTextLarge(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier.fillMaxWidth(),
+        text = text,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.secondary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+fun CardTitleTextSmall(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.tertiary,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+fun CardSourceTextSmall(
+    modifier: Modifier = Modifier,
+    text: String,
+    style: TextStyle
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = style,
+        color = MaterialTheme.colorScheme.secondary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+fun CardDescriptionText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier.fillMaxWidth(),
+        text = text,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.secondary,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+fun OptionTitleText(
+    modifier: Modifier = Modifier,
+    text: String
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.tertiary
+    )
+}
+
+@Composable
+fun OptionDescriptionText(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color
+){
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.labelSmall,
+        color = color
+    )
+}
+
 
 @Composable
 fun TextMarquee(
@@ -96,9 +258,8 @@ fun TextComponentPreview() {
         dynamicColor = false
     ) {
         Column {
-            TextH3(textResId = R.string.bookmark)
-            TextH4(textResId = R.string.bookmark)
-            TextH5(textResId = R.string.bookmark)
+            ScreenTitleTextLarge(textResId = R.string.bookmark)
+            ScreenTitleTextSmall(textResId = R.string.bookmark)
         }
 
     }

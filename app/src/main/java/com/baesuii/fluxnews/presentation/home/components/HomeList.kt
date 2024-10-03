@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.presentation.common.EmptyScreen
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
@@ -54,7 +56,7 @@ fun HomeList (
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No breaking news available",
+                    text = stringResource(id = R.string.no_news_available),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }

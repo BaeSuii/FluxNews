@@ -3,6 +3,8 @@ package com.baesuii.fluxnews.presentation.home
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -11,9 +13,11 @@ import com.baesuii.fluxnews.domain.manager.ArticleCacheManager
 import com.baesuii.fluxnews.domain.model.WeatherData
 import com.baesuii.fluxnews.domain.use_case.NewsUseCases
 import com.baesuii.fluxnews.util.Constants.FIVE_MINUTES_MILLIS
+import com.baesuii.fluxnews.util.Constants.SOURCES
 import com.baesuii.fluxnews.util.Constants.WEATHER_KEY
 import com.baesuii.fluxnews.util.Constants.WEATHER_URL
 import com.baesuii.fluxnews.util.filterArticles
+import com.baesuii.fluxnews.util.timezoneToCity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -23,6 +27,7 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
@@ -30,7 +35,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsUseCases: NewsUseCases,
-    private val articleCacheManager: ArticleCacheManager
+    private val articleCacheManager: ArticleCacheManager,
+    private val dataStore: DataStore<Preferences>
 ): ViewModel() {
 
     private val _state = mutableStateOf(HomeState())
@@ -63,7 +69,7 @@ class HomeViewModel @Inject constructor(
         if (cachedData != null) {
             send(cachedData.filterArticles()) // Use cached data if available
         } else {
-            newsUseCases.getNewsEverything(listOf("bbc-news", "abc-news", "cnn"))
+            newsUseCases.getNewsEverything(SOURCES)
                 .cachedIn(viewModelScope)
                 .collectLatest { articles ->
                     val validArticles = articles.filterArticles()
@@ -82,10 +88,10 @@ class HomeViewModel @Inject constructor(
     private fun observeNewsFlows() {
         viewModelScope.launch {
             breakingNews.collectLatest {
-                Log.d("HomeViewModel", "Breaking news loaded")
+                println("Breaking news loaded")
             }
             everythingNews.collectLatest {
-                Log.d("HomeViewModel", "Everything news loaded")
+                println("Everything news loaded")
             }
         }
     }
@@ -130,7 +136,7 @@ class HomeViewModel @Inject constructor(
             if (cachedData != null) {
                 // Nothing to refresh as the cache is valid
             } else {
-                newsUseCases.getNewsEverything(listOf("bbc-news", "abc-news", "cnn"))
+                newsUseCases.getNewsEverything(SOURCES)
                     .cachedIn(viewModelScope)
                     .collectLatest { articles ->
                         val validArticles = articles.filterArticles()
@@ -140,18 +146,37 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    //Weather
-    private fun fetchWeatherData() {
+    fun updateCity(newTimezone: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val apiKey = WEATHER_KEY
-            val weatherApi: WeatherApi = Retrofit.Builder()
-                .baseUrl(WEATHER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(WeatherApi::class.java)
+            try {
+                val city = timezoneToCity(dataStore)
+                println("Updating weather data for new city: $city")
+                fetchWeatherData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
-            val fetchedWeatherData = weatherApi.getWeather("manila", apiKey)
-            _weatherData.value = fetchedWeatherData
+    fun fetchWeatherData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val city = timezoneToCity(dataStore)
+                println("Fetching weather data for city: $city")
+                val apiKey = WEATHER_KEY
+                val weatherApi: WeatherApi = Retrofit.Builder()
+                    .baseUrl(WEATHER_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(WeatherApi::class.java)
+
+                val fetchedWeatherData = weatherApi.getWeather(city, apiKey)
+                _weatherData.value = fetchedWeatherData
+            } catch (e: HttpException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

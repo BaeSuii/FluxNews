@@ -9,6 +9,12 @@ data class DarkMode(
     val isDarkModeEnabled: Boolean
 )
 
+data class Timezone(
+    val title: String,
+    val description: String,
+    @DrawableRes val icon: Int
+)
+
 data class AppVersion(
     val title: String,
     val description: String,

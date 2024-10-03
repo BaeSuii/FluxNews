@@ -6,9 +6,15 @@ import com.baesuii.fluxnews.R
 import java.util.Calendar
 
 @Composable
-fun formatDay(): String {
+fun formatDay(timezoneOffset: Int): String {
     val context = LocalContext.current
+
+    val utcTimeInMillis = System.currentTimeMillis()
+    val localTimeInMillis = utcTimeInMillis + (timezoneOffset * 1000L)
+
     val calendar = Calendar.getInstance()
+    calendar.timeInMillis = localTimeInMillis
+
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
     return when (hour) {

@@ -1,6 +1,5 @@
 package com.baesuii.fluxnews.data.remote.paging
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -50,7 +49,7 @@ class NewsPagingSource (
             }
 
             if (newsResponse.articles.isEmpty()) {
-                Log.d("NewsPagingSource", "No articles found for $requestType with query: $query")
+                println("No articles found for $requestType with query: $query")
             }
 
             totalNewsCount += newsResponse.articles.size
@@ -64,18 +63,15 @@ class NewsPagingSource (
                 prevKey = null
             )
         } catch (e: SocketTimeoutException) {
-            Log.e("NewsPagingSource", "Network timeout occurred for $requestType with query: $query")
             LoadResult.Error(Throwable("Network timeout. Please try again."))
         } catch (e: retrofit2.HttpException) {
             if (e.code() == 429) {
                 val retryAfter = e.response()?.headers()?.get("Retry-After")?.toIntOrNull() ?: 60
-                Log.e("NewsPagingSource", "Rate limit hit for $requestType. Retrying after $retryAfter seconds.")
                 delay(retryAfter * 1000L)
             }
             LoadResult.Error(e)
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("NewsPagingSource", "Error loading $requestType with query: $query", e)
             LoadResult.Error(e)
         }
     }

@@ -14,5 +14,4 @@ sealed class NewsRouter (
     data object NewsNavigatorScreen: NewsRouter("newsNavigator")
 
     data object SettingsScreen: NewsRouter("settingsScreen")
-    data object LanguageScreen: NewsRouter("languageScreen")
 }

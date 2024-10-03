@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.baesuii.fluxnews.presentation.common.GenericButton
 import com.baesuii.fluxnews.presentation.common.GenericOutlinedButton
+import com.baesuii.fluxnews.presentation.theme.Dimensions.cornerMedium
+import com.baesuii.fluxnews.presentation.theme.Dimensions.onBoardingDescription
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
-import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
 import kotlinx.coroutines.launch
 
@@ -41,6 +43,7 @@ fun OnboardingScreen(
     event: (OnboardingEvent) -> Unit = {}
 ) {
     Column(modifier = Modifier
+        .testTag("OnboardingScreen")
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
 
@@ -84,33 +87,36 @@ fun OnboardingScreen(
             Surface(
                 color = MaterialTheme.colorScheme.background,
                 modifier = Modifier
-                    .requiredHeight(430.dp)
+                    .fillMaxHeight(0.45f)
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter),
-                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                shape = RoundedCornerShape(topStart = cornerMedium, topEnd = cornerMedium),
             ) {
                 Column(modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingLarge)
-                    .navigationBarsPadding()
+                    .navigationBarsPadding(),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp) // Fixed height for text area
+                            .height(onBoardingDescription)
                     ) {
                         OnboardingPageText(page = pages[pageState.currentPage])
                     }
 
 
-                    Spacer(modifier = Modifier.height(paddingMedium))
 
                     Column(modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Bottom
+                        verticalArrangement = Arrangement.SpaceEvenly
                     ) {
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Spacer(modifier = Modifier.weight(0.25f))
                             val scope = rememberCoroutineScope()
                             //Hide the button when the first element of the list is empty
                             if (buttonsState.value[0].isNotEmpty()) {
@@ -124,7 +130,7 @@ fun OnboardingScreen(
                                         }
                                     }
                                 )
-                                Spacer(modifier = Modifier.width(paddingMedium))
+                                Spacer(modifier = Modifier.weight(0.25f))
                             }
                             GenericButton(
                                 text = buttonsState.value[1],
@@ -140,9 +146,9 @@ fun OnboardingScreen(
                                     }
                                 }
                             )
-                        }
 
-                        Spacer(modifier = Modifier.weight(0.5f))
+                            Spacer(modifier = Modifier.weight(0.25f))
+                        }
 
                         OnboardingPageIndicator(
                             modifier = Modifier.width(100.dp).alpha(0.8f),
@@ -150,7 +156,6 @@ fun OnboardingScreen(
                             selectedPage = pageState.currentPage
                         )
 
-                        Spacer(modifier = Modifier.weight(0.5f))
                     }
                 }
             }
