@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
-import com.baesuii.fluxnews.presentation.explore.components.ArticleList
-import com.baesuii.fluxnews.presentation.common.TextH3
+import com.baesuii.fluxnews.presentation.bookmark.components.BookmarkList
+import com.baesuii.fluxnews.presentation.common.ScreenTitleTextLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSmall
 import com.baesuii.fluxnews.presentation.theme.FluxNewsTheme
@@ -28,13 +28,13 @@ fun BookmarkScreen(
         TopAppBar(
             modifier = Modifier.padding(paddingSemiMedium),
             title = {
-                TextH3(textResId = R.string.bookmark)
+                ScreenTitleTextLarge(textResId = R.string.bookmark)
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.background
             )
         )
-        ArticleList(
+        BookmarkList(
             modifier = Modifier.padding(horizontal = paddingSmall),
             articles = state.articles,
             onClick = { navigateToDetails(it)}

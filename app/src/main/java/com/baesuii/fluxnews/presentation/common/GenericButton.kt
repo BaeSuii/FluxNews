@@ -14,6 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baesuii.fluxnews.presentation.theme.Dimensions.borderSmall
+import com.baesuii.fluxnews.presentation.theme.Dimensions.cornerNormal
+import com.baesuii.fluxnews.presentation.theme.Dimensions.mainButtonHeight
+import com.baesuii.fluxnews.presentation.theme.Dimensions.mainButtonWidth
 import com.baesuii.fluxnews.presentation.theme.backgroundSecondaryLight
 
 @Composable
@@ -28,13 +32,12 @@ fun GenericButton(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = Color.White
         ),
-        shape = RoundedCornerShape(size = 30.dp),
-        modifier = Modifier.width(180.dp).height(56.dp)
+        shape = RoundedCornerShape(size = cornerNormal),
+        modifier = Modifier
+            .width(mainButtonWidth)
+            .height(mainButtonHeight)
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-        )
+        MainButtonText(text = text)
     }
 }
 
@@ -51,17 +54,14 @@ fun GenericOutlinedButton(
             contentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         modifier = Modifier
-            .width(180.dp)
-            .height(56.dp)
+            .width(mainButtonWidth)
+            .height(mainButtonHeight)
             .border(
-                width = 2.dp,
+                width = borderSmall,
                 color = MaterialTheme.colorScheme.onPrimary,
-                shape = RoundedCornerShape(size = 30.dp))
+                shape = RoundedCornerShape(size = cornerNormal))
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-        )
+        MainButtonText(text = text)
     }
 }
 

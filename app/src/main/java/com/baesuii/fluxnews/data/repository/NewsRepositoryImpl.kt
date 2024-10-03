@@ -1,6 +1,5 @@
 package com.baesuii.fluxnews.data.repository
 
-import android.content.SharedPreferences
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -50,14 +49,14 @@ class NewsRepositoryImpl @Inject constructor(
         return CATEGORY_LIST
     }
 
-    override fun getCategorizedNews(category: String, sources: List<String>): Flow<PagingData<Article>> {
+    override fun getCategorizedNews(category: String): Flow<PagingData<Article>> {
         return Pager(
             config = defaultPagingConfig,
             pagingSourceFactory = {
                 NewsPagingSource(
                     newsApi = newsApi,
                     requestType = RequestType.CategorizedNews,
-                    query = category,
+                    query = category
                 )
             }
         ).flow

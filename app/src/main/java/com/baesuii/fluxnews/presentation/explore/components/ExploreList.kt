@@ -15,29 +15,7 @@ import com.baesuii.fluxnews.presentation.common.EmptyScreen
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraSmall
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 
-@Composable
-fun ArticleList (
-    modifier: Modifier = Modifier,
-    articles: List<Article>,
-    onClick: (Article) -> Unit
-){
-    if (articles.isEmpty()){
-        EmptyScreen()
-    }
-    LazyColumn (
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(paddingMedium),
-        contentPadding = PaddingValues(all = paddingExtraSmall)
-    ){
-        items(count = articles.size){
-            val article = articles[it]
-                ExploreCard(
-                    article = article,
-                    onClick = { onClick(article) }
-                )
-        }
-    }
-}
+
 
 @Composable
 fun ExploreList(

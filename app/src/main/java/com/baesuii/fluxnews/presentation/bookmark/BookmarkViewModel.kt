@@ -22,10 +22,9 @@ class BookmarkViewModel @Inject constructor(
         getArticles()
     }
 
-    private fun getArticles(){
+    fun getArticles(){
         newsUseCases.getArticles().onEach {
             _state.value = _state.value.copy(articles = it)
         }.launchIn(viewModelScope)
     }
-
 }

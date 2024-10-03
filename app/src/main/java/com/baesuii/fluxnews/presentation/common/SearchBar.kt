@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,14 +64,14 @@ fun SearchBar(
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = null,
                     modifier = Modifier.size(iconLarge),
-                    tint = colorResource(id = R.color.body)
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             },
             placeholder = {
                 Text(
                     text = "Search",
                     style = MaterialTheme.typography.bodySmall,
-                    color = colorResource(id = R.color.placeholder)
+                    color = MaterialTheme.colorScheme.secondary
                 )
             },
             trailingIcon = {
@@ -85,18 +84,18 @@ fun SearchBar(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_close),
                         contentDescription = null,
-                        tint = colorResource(id = R.color.body)
+                        tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
             },
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = colorResource(id = R.color.input_background),
-                focusedContainerColor = colorResource(id = R.color.input_background),
-                disabledContainerColor = colorResource(id = R.color.input_background),
-                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                unfocusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                cursorColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.onSurface,
+                focusedTextColor = MaterialTheme.colorScheme.tertiary,
+                unfocusedTextColor = MaterialTheme.colorScheme.tertiary,
+                cursorColor = MaterialTheme.colorScheme.tertiary,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
@@ -117,7 +116,7 @@ fun Modifier.searchBarBorder() = composed {
     if (!isSystemInDarkTheme()){
         border(
             width = 1.dp,
-            color = Color.LightGray,
+            color = MaterialTheme.colorScheme.secondary,
             shape = MaterialTheme.shapes.medium
         )
     } else {

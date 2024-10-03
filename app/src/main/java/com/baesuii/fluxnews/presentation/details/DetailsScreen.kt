@@ -25,19 +25,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
+import com.baesuii.fluxnews.presentation.common.CardSourceTextSmall
+import com.baesuii.fluxnews.presentation.common.ContentTitleText
+import com.baesuii.fluxnews.presentation.common.DetailsArticleImage
 import com.baesuii.fluxnews.presentation.theme.Dimensions.iconSmall
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraSmall
@@ -90,16 +92,9 @@ fun DetailsScreen(
                 .padding(innerPadding)
         ){
             // Image in the background
-            AsyncImage(
-                model = ImageRequest.Builder(context = context).data(article.urlToImage).build(),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.4f)
-                    .align(Alignment.TopCenter)
-                    .background(MaterialTheme.colorScheme.surface),
-                contentScale = ContentScale.Crop,
-                error = painterResource(id = R.drawable.ic_image_error)
+            DetailsArticleImage(
+                articleUrl = article.urlToImage,
+                context = context
             )
 
             // Scrollable Article content
@@ -109,7 +104,7 @@ fun DetailsScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.7f)
+                        .fillMaxHeight(0.65f)
                         .align(Alignment.BottomCenter)
                         .clip(
                             RoundedCornerShape(
@@ -125,31 +120,19 @@ fun DetailsScreen(
                     )
                 ) {
                     item {
-                        Text(
+                        ContentTitleText(
                             text = article.title,
-                            style = MaterialTheme.typography.headlineLarge,
-                            color = MaterialTheme.colorScheme.tertiary
+                            textAlign = TextAlign.Left
                         )
 
-                        Spacer(modifier = Modifier.height(paddingMedium))
+                        Spacer(modifier = Modifier.height(paddingSmall))
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = article.source.name.take(12),
-                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                color = colorResource(id = R.color.body),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Spacer(modifier = Modifier.width(paddingSmall))
                             article.author?.let {
-                                Text(
+                                CardSourceTextSmall(
                                     text = it,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = colorResource(id = R.color.body),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                    style = MaterialTheme.typography.labelSmall
                                 )
                             }
                             Spacer(modifier = Modifier.width(paddingSmall))
@@ -157,23 +140,31 @@ fun DetailsScreen(
                                 painter = painterResource(id = R.drawable.ic_time),
                                 contentDescription = null,
                                 modifier = Modifier.size(iconSmall),
-                                tint = MaterialTheme.colorScheme.tertiary
+                                tint = MaterialTheme.colorScheme.secondary
                             )
                             Spacer(modifier = Modifier.width(paddingExtraSmall))
-                            Text(
+
+                            CardSourceTextSmall(
                                 text = formatDate(article.publishedAt),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = colorResource(id = R.color.body),
-                                maxLines = 1
+                                style = MaterialTheme.typography.labelSmall
                             )
                         }
 
 
                         Spacer(modifier = Modifier.height(paddingMedium))
 
+                        val articleContent = cleanContent(article.content)
+                        val briefContent = buildAnnotatedString {
+                            append(articleContent)
+
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                                append(stringResource(R.string.read_more))
+                            }
+                        }
+
                         Text(
-                            text = cleanContent(article.content),
-                            style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 30.sp),
+                            text = briefContent,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
                     }

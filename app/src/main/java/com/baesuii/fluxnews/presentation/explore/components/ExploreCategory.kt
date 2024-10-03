@@ -58,7 +58,7 @@ fun ExploreCategory(
                     Text(
                         text = category,
                         color = MaterialTheme.colorScheme.tertiary,
-                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
             }

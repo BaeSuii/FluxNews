@@ -39,8 +39,11 @@ fun formatDate(dateString: String): String {
     }
 }
 
-fun weatherDate(): String {
+fun weatherDate(timezoneOffset: Int): String {
+    val utcTimeInMillis = System.currentTimeMillis()
+    val localTimeInMillis = utcTimeInMillis + (timezoneOffset * 1000L)
+
     val originalFormat = SimpleDateFormat("EEE dd MMM, yyyy", Locale.getDefault())
     originalFormat.timeZone = TimeZone.getTimeZone("UTC")
-    return originalFormat.format(Calendar.getInstance().time)
+    return originalFormat.format(localTimeInMillis)
 }

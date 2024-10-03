@@ -28,8 +28,11 @@
     <string name="theme">Theme</string>">
     <string name="select_theme">Select Theme</string>
     <string name="use_system_settings">Use System Settings</string>
+    <string name="enter_nickname">Enter your Nickname</string>
+    <string name="nickname">Nickname</string>
     <string name="light_mode">Light Mode</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="timezone">Timezone</string>
     <string name="app_version">App Version</string>
 
     <!-- Log Prompts -->
@@ -38,13 +41,13 @@
     <string name="no_saved_news">You have not saved news so far !</string>
     <string name="dark_mode_on">Dark Mode On</string>
     <string name="dark_mode_off">Dark Mode Off</string>
-    <string name="enter_nickname">Enter your Nickname</string>
-    <string name="nickname">Nickname</string>
 
     <!-- User Prompts -->
+    <string name="no_news_available">No news available</string>
     <string name="server_unavailable">Server Unavailable</string>
     <string name="internet_unavailable">Internet Unavailable</string>
     <string name="rate_limit_exceeded">Api reached its limit. Please try again after 24 hours.</string>
     <string name="unknown_error">Unknown Error</string>
-    
+    <string name="read_more"> Read more on browser</string>
+
 </resources>

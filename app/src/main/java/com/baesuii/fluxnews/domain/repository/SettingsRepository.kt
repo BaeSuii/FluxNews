@@ -13,5 +13,8 @@ interface SettingsRepository {
     fun getSelectedEmoji(): Flow<String>
     suspend fun updateSelectedEmoji(emoji: String)
 
+    fun getTimezone(): Flow<String>
+    suspend fun updateTimezone(newTimezone: String)
+
     suspend fun clearPreferences()
 }

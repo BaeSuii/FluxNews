@@ -9,7 +9,7 @@ class NewsTypeConverter {
 
     @TypeConverter
     fun sourceToString(source: Source): String {
-        return "${source.name},${source.id}"
+        return "${source.id},${source.name}"
     }
 
     @TypeConverter

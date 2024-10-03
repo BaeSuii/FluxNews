@@ -8,7 +8,8 @@ fun PagingData<Article>.filterArticles(): PagingData<Article> {
     return this.filter { article ->
         val hasValidTitle = !article.title.isNullOrEmpty()
         val contentIsNotRemoved = article.content?.contains("[Removed]") == false
+        val hasValidImage = !article.urlToImage.isNullOrEmpty()
 
-        hasValidTitle && contentIsNotRemoved
+        hasValidTitle && contentIsNotRemoved && hasValidImage
     }
 }

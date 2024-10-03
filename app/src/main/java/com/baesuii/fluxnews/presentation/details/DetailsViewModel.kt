@@ -17,7 +17,6 @@ class DetailsViewModel @Inject constructor(
 ): ViewModel() {
 
     var sideEffect by mutableStateOf<String?>(null)
-        private set
 
     fun onEvent(event: DetailsEvent){
         when(event){

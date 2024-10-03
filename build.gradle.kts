@@ -10,4 +10,6 @@ plugins {
 
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+
+    alias(libs.plugins.google.services) apply false
 }

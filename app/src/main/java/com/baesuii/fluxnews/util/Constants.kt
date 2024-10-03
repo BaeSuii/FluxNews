@@ -9,6 +9,8 @@ import com.baesuii.fluxnews.domain.model.Source
 
 object Constants {
 
+    const val FIVE_MINUTES_MILLIS = 5 * 60 * 1000L
+
     const val USER_SETTINGS = "user_settings"
     const val APP_ENTRY = "app_entry"
     const val API_KEY = BuildConfig.API_KEY
@@ -19,12 +21,37 @@ object Constants {
     const val WEATHER_URL = "https://api.openweathermap.org/data/2.5/"
 
     val CATEGORY_LIST = arrayListOf(
-        "Health", "Business", "Technology", "Entertainment", "Science", "Sports"
+        "Health",
+        "Business",
+        "Technology",
+        "Entertainment",
+        "Science",
+        "Sports"
+    )
+
+    val SOURCES = listOf(
+        "the-verge",
+        "vice-news",
+        "wired",
+        "bbc-news",
+        "abc-news",
+        "cnn",
+        "reuters",
+        "al-jazeera-english",
+        "the-new-york-times",
+        "the-guardian",
+        "vox",
+        "polygon",
+        "ign",
+        "cnet",
+        "forbes",
+        "business-insider",
+        "esquire"
     )
 
     val dummyArticle = Article(
         author = "Author",
-        title = "This is title.",
+        title = "This is title. This is title. This is title. This is title.",
         description = "This is a description. This is a description. This is a description. This is a description. This is a description. This is a description. ",
         content = "This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. This is a content. ",
         publishedAt = "2 hours ago",
@@ -43,6 +70,4 @@ object Constants {
         "🤔","😂", "😍", "🤨", "😏", "😬", "🤪", "😴",
         "🙂", "🙃", "😐", "😑", "😏", "😒", "😕", "😌"
     )
-
-    const val FIVE_MINUTES_MILLIS = 5 * 60 * 1000L
 }

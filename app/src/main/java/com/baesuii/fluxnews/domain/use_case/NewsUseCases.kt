@@ -1,5 +1,6 @@
 package com.baesuii.fluxnews.domain.use_case
 
+import android.util.Log
 import androidx.paging.PagingData
 import com.baesuii.fluxnews.data.local.NewsDao
 import com.baesuii.fluxnews.domain.model.Article
@@ -39,8 +40,8 @@ class GetNewsEverything (
 class GetCategorizedNews(
     private val newsRepository: NewsRepository
 ) {
-    operator fun invoke(category: String, sources: List<String>): Flow<PagingData<Article>> {
-        return newsRepository.getCategorizedNews(category, sources)
+    operator fun invoke(category: String): Flow<PagingData<Article>> {
+        return newsRepository.getCategorizedNews(category)
     }
 }
 
@@ -56,7 +57,11 @@ class UpsertArticle (
     private val newsDao: NewsDao
 ){
     suspend operator fun invoke(article: Article){
-        newsDao.upsert(article)
+        if (!article.source.name.isNullOrEmpty()) {
+            newsDao.upsert(article)
+        } else {
+            Log.e("UpsertArticle", "Source name is null.")
+        }
     }
 }
 

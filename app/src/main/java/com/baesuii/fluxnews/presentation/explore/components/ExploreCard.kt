@@ -11,17 +11,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
+import com.baesuii.fluxnews.presentation.common.CardSourceTextSmall
+import com.baesuii.fluxnews.presentation.common.CardTitleTextSmall
 import com.baesuii.fluxnews.presentation.common.ExploreArticleImage
 import com.baesuii.fluxnews.presentation.theme.Dimensions.iconSmall
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingExtraSmall
@@ -53,24 +53,19 @@ fun ExploreCard(
                 .weight(1f)
                 .padding(end = paddingSmall)
         ) {
-            Text(
+            CardTitleTextSmall(
                 text = article.title,
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.tertiary,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
             )
+
             Spacer(modifier = Modifier.height(paddingExtraSmall))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = article.source.name.take(18),
-                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.secondary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                CardSourceTextSmall(
+                    text = article.source.name,
+                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
+
                 Spacer(modifier = Modifier.width(paddingSmall))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_time),
@@ -79,11 +74,10 @@ fun ExploreCard(
                     tint = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.width(paddingExtraSmall))
-                Text(
+
+                CardSourceTextSmall(
                     text = formatDate(article.publishedAt),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.secondary,
-                    maxLines = 1
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         }

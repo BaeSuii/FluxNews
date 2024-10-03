@@ -123,5 +123,5 @@ object NewsModule {
     @Singleton
     fun provideNewsDao(
         newsDatabase: NewsDatabase
-    ): NewsDao = newsDatabase.newsDao
+    ): NewsDao = newsDatabase.newsDao()
 }

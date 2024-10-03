@@ -3,7 +3,6 @@ package com.baesuii.fluxnews.presentation.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -21,8 +21,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.baesuii.fluxnews.R
 import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.domain.model.WeatherData
-import com.baesuii.fluxnews.presentation.common.TextH4
+import com.baesuii.fluxnews.presentation.common.ScreenTitleTextSmall
 import com.baesuii.fluxnews.presentation.home.components.HomeList
+import com.baesuii.fluxnews.presentation.home.components.HomeWeatherBar
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingLarge
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingMedium
 import com.baesuii.fluxnews.presentation.theme.Dimensions.paddingSemiMedium
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun HomeScreen (
     weatherData: WeatherData?,
+    selectedCity: String,
     nickname: String,
     selectedEmoji: String,
     everythingNews: LazyPagingItems<Article>,
@@ -44,14 +46,16 @@ fun HomeScreen (
 
     Scaffold (
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .testTag("HomeScreen"),
         topBar = {
             HomeWeatherBar(
-            weatherData = weatherData,
-            nickname = nickname,
-            selectedEmoji = selectedEmoji
-            )
-                 },
+                weatherData = weatherData,
+                timezone = selectedCity,
+                nickname = nickname,
+                selectedEmoji = selectedEmoji,
+                timezoneOffset = weatherData?.timezone ?: 28800
+            ) },
         containerColor = Color.Transparent
     ){ paddingValues ->
         Box(
@@ -65,7 +69,7 @@ fun HomeScreen (
                 item {
                     Spacer(modifier = Modifier.height(paddingMedium))
 
-                    TextH4(
+                    ScreenTitleTextSmall(
                         modifier = Modifier.padding(start = paddingLarge),
                         textResId = R.string.breaking_news
                     )
@@ -75,17 +79,14 @@ fun HomeScreen (
                         articles = breakingNews,
                         onClick = { article -> navigateToDetails(article) }
                     ).also {
-                        Log.d(
-                            "BreakingNewsSection",
-                            "Breaking News - Articles count: ${breakingNews.itemCount}"
-                        )
+                        println("Breaking News - Articles count: ${breakingNews.itemCount}")
                     }
                 }
 
                 item {
                     Spacer(modifier = Modifier.height(paddingMedium))
 
-                    TextH4(
+                    ScreenTitleTextSmall(
                         modifier = Modifier.padding(start = paddingLarge),
                         textResId = R.string.worldwide
                     )
@@ -97,10 +98,7 @@ fun HomeScreen (
                         articles = everythingNews,
                         onClick = {  article -> navigateToDetails(article) }
                     ).also {
-                        Log.d(
-                            "EverythingNewsSection",
-                            "Everything News - Articles count: ${everythingNews.itemCount}"
-                        )
+                        println("Everything News - Articles count: ${everythingNews.itemCount}")
                     }
                 }
             }
@@ -124,6 +122,8 @@ fun HomeScreenPreview(){
             selectedEmoji = "\uD83D\uDE36",
             everythingNews = lazyPagingArticles,
             breakingNews = lazyPagingArticles,
-            navigateToDetails = {})
+            navigateToDetails = {},
+            selectedCity = "Manila"
+        )
     }
 }

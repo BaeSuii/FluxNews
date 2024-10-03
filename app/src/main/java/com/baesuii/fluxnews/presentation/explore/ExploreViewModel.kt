@@ -1,5 +1,6 @@
 package com.baesuii.fluxnews.presentation.explore
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +14,7 @@ import com.baesuii.fluxnews.domain.model.Article
 import com.baesuii.fluxnews.domain.use_case.NewsUseCases
 import com.baesuii.fluxnews.util.Constants.CATEGORY_LIST
 import com.baesuii.fluxnews.util.Constants.FIVE_MINUTES_MILLIS
+import com.baesuii.fluxnews.util.Constants.SOURCES
 import com.baesuii.fluxnews.util.filterArticles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -33,7 +35,7 @@ class ExploreViewModel @Inject constructor(
     val state: State<ExploreState> = _searchState
 
     private var selectedCategory by mutableStateOf(CATEGORY_LIST.first())
-    private val categoryArticlesMap = mutableMapOf<String, PagingData<Article>>()
+    val categoryArticlesMap = mutableMapOf<String, PagingData<Article>>()
     private var _articles = MutableStateFlow<PagingData<Article>>(PagingData.empty())
     val articles: StateFlow<PagingData<Article>> = _articles
 
@@ -41,7 +43,7 @@ class ExploreViewModel @Inject constructor(
     val isRefreshing: State<Boolean> = _isRefreshing
 
     // Handle search news results
-    private var _searchResults = MutableStateFlow<PagingData<Article>>(PagingData.empty())
+    private val _searchResults = MutableStateFlow<PagingData<Article>>(PagingData.empty())
     val searchResults: StateFlow<PagingData<Article>> = _searchResults
 
     init {
@@ -95,7 +97,7 @@ class ExploreViewModel @Inject constructor(
     }
 
     private suspend fun fetchCategorizedNews(category: String) {
-        newsUseCases.getCategorizedNews(category, listOf("bbc-news", "abc-news", "cnn"))
+        newsUseCases.getCategorizedNews(category)
             .cachedIn(viewModelScope)
             .collectLatest { articles ->
                 val validArticles = articles.filterArticles()
@@ -131,12 +133,14 @@ class ExploreViewModel @Inject constructor(
 
     private fun searchNews() {
         viewModelScope.launch {
+            println("Searching for news with query: ${state.value.searchQuery}")
             newsUseCases.searchNews(
                 searchQuery = state.value.searchQuery,
-                sources = listOf("bbc-news", "abc-news", "cnn")
+                sources = SOURCES
             ).cachedIn(viewModelScope)
                 .collectLatest { articles ->
                     _searchResults.value = articles.filterArticles()
+                    println("Search results updated: ${_searchResults.value} articles found.")
                 }
         }
     }
