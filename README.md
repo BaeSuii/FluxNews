@@ -49,3 +49,22 @@ FluxNews is an Android app using Kotlin and Jetpack Compose and provides real-ti
 | <img src="https://avatars.githubusercontent.com/u/34787540?s=280&v=4" height="24">                                 | [**MockK**](https://mockk.io/)                                                             | A mocking framework for unit testing Kotlin code                                    |
 | <img src="https://avatars.githubusercontent.com/u/49219790?s=48&v=4" height="24">                                  | [**Turbine**](https://github.com/cashapp/turbine)                                          | A testing library for Kotlin Flows                                                  |
 
+# Build setup
+App is using the following keys to work:
+
+`google-services.json`
+- The app will fail if you don't have this.
+- Get this file when you create Firebase project with at least one Android application.
+- Add the JSON file in `FluxNews/app/src`
+
+News API and OpenWeatherMap
+- Since both of these keys refer to `buildConfig`, create your own API keys and add them in your `local.properties`:
+```
+API_KEY = <YOUR_NEWS_API_KEY>
+WEATHER_KEY = <YOUR_OPEN_WEATHER_MAP_KEY>
+```
+
+# Notes
+[Test app via Firebase](https://appdistribution.firebase.dev/i/1902c7e65f298f1d)
+
+This project is for educational purposes only. No commercial use or distribution is intended.
